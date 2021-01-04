@@ -12,12 +12,6 @@
 
 
 ## Milestones
-- v0.1:
-	v uso python-libtcod; movimento in spazio libero
-	v cambiare tileset
-	- sostituire procgen map con semplice Perlin noise a tre livelli
-	- cambiare palette
-
 
 - v0.2:
 	- collocazione e raccolta piante
