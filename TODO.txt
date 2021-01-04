@@ -1,42 +1,7 @@
 ## TODO
-- generazione mondo (no biomi, modello Italia centrale)
-	- catena montuosa centrale con ramificazioni
-	- colline e piccole pianure
-	? strade
 
-- generazione geografia secondo livello (luoghi):
-	- monastero
-	- santuario
-	- castello
-	- villaggio
-	- fattoria
-- generazione nomi luoghi e persone
-- generazione ground truth
-	- filosofia naturale
-	- teologia
-	- erboristeria
-	- bestiario
-	- biografie
-	- storie dei luoghi
-- generazione e collocazione libri
-- generazione e collocazione altri items:
-	- equipaggiamento
-	- monumenti
-	- reliquie
-	- manufatti
-	- ingredienti
-- generazione e collocazione NPC
-- movimento
-- gestione quest
-- visualizz journal
-- interaz NPC:
-	- conversazione
-	- attacco (stabbing, poisoning, inganno)
-	- aiuto: scambio
-		- ricetta
-		- ingrediente
-		- item
-		- denaro
+- configuration file
++ switch graphic library
 
 
 ## Bugs
@@ -49,8 +14,9 @@
 ## Milestones
 - v0.1:
 	v uso python-libtcod; movimento in spazio libero
-	- cambiare tileset
+	v cambiare tileset
 	- sostituire procgen map con semplice Perlin noise a tre livelli
+	- cambiare palette
 
 
 - v0.2:

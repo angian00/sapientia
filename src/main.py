@@ -11,10 +11,10 @@ import setup_game
 
 
 def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
-	"""If the current event handler has an active Engine then save it."""
+	"""If the current event handler has an active Engine then save it"""
 	if isinstance(handler, input_handlers.EventHandler):
 		handler.engine.save_as(filename)
-		print("Game saved.")
+		print("Game saved")
 
 
 
@@ -23,9 +23,9 @@ def main() -> None:
 	screen_height = 50
 
 
-	tileset = tcod.tileset.load_tilesheet(
-		"dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD
-	)
+	#tileset = tcod.tileset.load_tilesheet("dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
+	#tileset = tcod.tileset.load_truetype_font("Menlo-Regular-01.ttf", 16, 10)
+	tileset = tcod.tileset.load_tilesheet("Japa_20x20.png", 16, 16, tcod.tileset.CHARMAP_CP437)
 
 	handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 

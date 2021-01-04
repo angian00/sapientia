@@ -20,7 +20,7 @@ class GameMap:
 		self.engine = engine
 		self.width, self.height = width, height
 		self.entities = set(entities)
-		self.tiles = np.full((width, height), fill_value=tile_types.wall, order="F")
+		self.tiles = np.full((width, height), fill_value=tile_types.floor, order="F")
 
 		self.visible = np.full(
 			(width, height), fill_value=False, order="F"
@@ -116,34 +116,18 @@ class GameWorld:
 		*,
 		engine: Engine,
 		map_width: int,
-		map_height: int,
-		max_rooms: int,
-		room_min_size: int,
-		room_max_size: int,
-		current_floor: int = 0
+		map_height: int
 	):
 		self.engine = engine
 
 		self.map_width = map_width
 		self.map_height = map_height
 
-		self.max_rooms = max_rooms
 
-		self.room_min_size = room_min_size
-		self.room_max_size = room_max_size
+	def generate_world_map(self) -> None:
+		from procgen import generate_wilderness
 
-		self.current_floor = current_floor
-
-
-	def generate_floor(self) -> None:
-		from procgen import generate_dungeon
-
-		self.current_floor += 1
-
-		self.engine.game_map = generate_dungeon(
-			max_rooms=self.max_rooms,
-			room_min_size=self.room_min_size,
-			room_max_size=self.room_max_size,
+		self.engine.game_map = generate_wilderness(
 			map_width=self.map_width,
 			map_height=self.map_height,
 			engine=self.engine,
