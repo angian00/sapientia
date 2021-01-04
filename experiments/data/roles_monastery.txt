@@ -1,0 +1,21 @@
+#role|prob_large|prob_medium|prob_small
+abate|1|1|1
+priore|1|0.5|0
+coadiutore|1|0|0
+cantore|1|0.5|0
+succentore|0.5|0|0
+portinaio|1|0.5|0
+sagrestano|1|1|0
+revestario|0.5|0|0
+tesoriere|1|0.5|0
+cellerario|1|0.5|0
+vice-cellerario|0.5|0|0
+granatorio|0.3|0|0
+refettorista|0.5|0|0
+cuciniere|1|0.5|0
+amporio|0.5|0|0
+infermiere|1|0.5|0
+elemosiniere|1|1|0.5
+maestro degli ospiti|0.5|0|0
+ciambellano|0.5|0|0
+maestro dei novizi|1|0.5|0.5

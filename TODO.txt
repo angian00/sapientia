@@ -12,6 +12,14 @@
 
 
 ## Milestones
+- v0.0.2:
+	v experimenting with procgen: a monastery
+	- placing sites in the world
+	- two-level map
+
+	- experimenting with npcs
+	- placing (pacific) npcs in the world
+
 
 - v0.2:
 	- collocazione e raccolta piante
