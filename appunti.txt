@@ -1,0 +1,51 @@
+# Antiqua Sapientia
+Un roguelike quest-based, con personaggi, eventi storici, artefatti generati proceduralmente.
+Ispirato a Caves of Qud e probabilmente simile a Ultima Ratio Regum.
+
+Ambientazione: ispirata al medioevo in Italia centrale, tra monasteri e abbazie.
+Scopo: accumulare quanta più conoscenza possibile accedendo ad antichi manoscritti.
+
+
+## Storia esempio
+Baldovino è un monaco. Viene incaricato dal suo abate? priore? di recuperare i manoscritti perduti del profeta Geremia. Prima di tutto deve consultare la biblioteca del monastero in cerca di indizi, poi recarsi a Montemaggiore, dove forse l'economo Petrus ha qualche suggerimento da dargli.
+Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di Berzelius, De agricoltura dell'Ignoto Normanno, l'Almanacco Lunare del Contadino. Interagisce con altri monaci del monastero (l'umile Tabaccaio, il vecchio Aleck) e ottiene così altri frammenti di informazione, sulla geografia dei dintorni e la storia politica recente: la Contea Remota, il Barone Clausius, le Marche Perdute. Fatto ciò, si incammina per l'abbazia di Montemaggiore.
+
+
+## Idee
+- libri --> frammenti di conoscenza
+- grafo riferimenti tra personaggi storici, tra personaggi e libri
+- piante
+	- occasione di conoscenza:
+		- vista
+		- toccata
+		- preparata e assaggiata
+		- esperimento specifico
+	Ogni occasione di conoscenza ha % di prob di rivelare frammento di truth
+	I libri (ricettari) contengono frammenti di truth, in prima istanza sempre affidabili.
+
+	- trattamento:
+		- polvere
+		- decotto
+		- impiastro
+	polvere X + decotto   Y  = decotto   (X + Y)
+	polvere X + impiastro Y  = impiastro (X + Y)
+	decotto X + impiastro Y  = impiastro (X + Y)
+
+- creature
+	- occasione di conoscenza:
+		- vista
+		- toccata
+		- preparata e assaggiata
+	- trattamento: macellazione +
+		- stufato
+		- sugo
+		- polvere
+		- (amuleto)
+
+- erbe (e creature) generati casualmente
+
+
+## Resources
+- erbario: da http://www.archeogat.it/archivio/zindex/Mostra%20Collina/collina%20torinese/pag_html/ortimedi.htm
+- bestiario: da https://www.bluedragon.it/bestiario/bestiario.htm
+

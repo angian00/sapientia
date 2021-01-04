@@ -1,0 +1,64 @@
+## TODO
+- generazione mondo (no biomi, modello Italia centrale)
+	- catena montuosa centrale con ramificazioni
+	- colline e piccole pianure
+	? strade
+
+- generazione geografia secondo livello (luoghi):
+	- monastero
+	- santuario
+	- castello
+	- villaggio
+	- fattoria
+- generazione nomi luoghi e persone
+- generazione ground truth
+	- filosofia naturale
+	- teologia
+	- erboristeria
+	- bestiario
+	- biografie
+	- storie dei luoghi
+- generazione e collocazione libri
+- generazione e collocazione altri items:
+	- equipaggiamento
+	- monumenti
+	- reliquie
+	- manufatti
+	- ingredienti
+- generazione e collocazione NPC
+- movimento
+- gestione quest
+- visualizz journal
+- interaz NPC:
+	- conversazione
+	- attacco (stabbing, poisoning, inganno)
+	- aiuto: scambio
+		- ricetta
+		- ingrediente
+		- item
+		- denaro
+
+
+## Bugs
+- transform tcod fov from square to circle
+- radius area effect
+- mapping stairs key
+- messages for equipment for monsters
+
+
+## Milestones
+- v0.1:
+	v uso python-libtcod; movimento in spazio libero
+	- cambiare tileset
+	- sostituire procgen map con semplice Perlin noise a tre livelli
+
+
+- v0.2:
+	- collocazione e raccolta piante
+
+- v0.3:
+	- generazione mondo con mappa a 2 livelli e nomi località
+
+
+
+
