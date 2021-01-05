@@ -142,10 +142,27 @@ class ActionWithDirection(Action):
 		"""Return the actor at this actions destination."""
 		return self.engine.game_map.get_actor_at_location(*self.dest_xy)
 
+	@property
+	def target_site(self) -> Optional[Site]:
+		"""Return the site at this actions destination."""
+		return self.engine.game_map.get_site_at_location(*self.dest_xy)
+
 
 	def perform(self) -> None:
 		raise NotImplementedError()
 
+
+
+class BumpAction(ActionWithDirection):
+	def perform(self) -> None:
+		if self.target_actor:
+			return MeleeAction(self.entity, self.dx, self.dy).perform()
+
+		elif self.target_site:
+			return EnterSiteAction(self.entity, self.dx, self.dy).perform()
+
+		else:
+			return MovementAction(self.entity, self.dx, self.dy).perform()
 
 
 class MeleeAction(ActionWithDirection):
@@ -192,11 +209,10 @@ class MovementAction(ActionWithDirection):
 		self.entity.move(self.dx, self.dy)
 
 
-class BumpAction(ActionWithDirection):
+class EnterSiteAction(ActionWithDirection):
 	def perform(self) -> None:
-		if self.target_actor:
-			return MeleeAction(self.entity, self.dx, self.dy).perform()
+		target = self.target_site
+		if not target:
+			raise exceptions.Impossible("No site to enter")
 
-		else:
-			return MovementAction(self.entity, self.dx, self.dy).perform()
-
+		self.engine.game_world.switch_map(target)

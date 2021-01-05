@@ -4,7 +4,7 @@ from typing import Iterable, Iterator, Optional, TYPE_CHECKING
 import numpy as np  # type: ignore
 from tcod.console import Console
 
-from entity import Actor, Item
+from entity import Actor, Item, Site
 import tile_types
 
 if TYPE_CHECKING:
@@ -45,10 +45,13 @@ class GameMap:
 			if isinstance(entity, Actor) and entity.is_alive
 		)
 
-
 	@property
 	def items(self) -> Iterator[Item]:
 		yield from (entity for entity in self.entities if isinstance(entity, Item))
+
+	@property
+	def sites(self) -> Iterator[Site]:
+		yield from (entity for entity in self.entities if isinstance(entity, Site))
 
 
 
@@ -70,6 +73,13 @@ class GameMap:
 		for actor in self.actors:
 			if actor.x == x and actor.y == y:
 				return actor
+
+		return None
+
+	def get_site_at_location(self, x: int, y: int) -> Optional[Site]:
+		for site in self.sites:
+			if site.x == x and site.y == y:
+				return site
 
 		return None
 
@@ -122,14 +132,32 @@ class GameWorld:
 
 		self.map_width = map_width
 		self.map_height = map_height
-
+		
 
 	def generate_world_map(self) -> None:
 		from procgen import generate_wilderness
 
-		self.engine.game_map = generate_wilderness(
+		self.world_map = generate_wilderness(
 			map_width=self.map_width,
 			map_height=self.map_height,
 			engine=self.engine,
 		)
+
+		self.site_maps = {}
+		self.engine.game_map = self.world_map
+
+
+	def switch_map(self, target) -> None:
+		from procgen import generate_wilderness
+
+		#if isinstance(target, Site)
+		if target not in self.site_maps:
+			self.site_maps[target] = generate_wilderness(
+				map_width=self.map_width,
+				map_height=self.map_height,
+				engine=self.engine,
+			)
+
+		self.engine.game_map = self.site_maps[target]
+
 

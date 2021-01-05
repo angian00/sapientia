@@ -1,12 +1,17 @@
 ## TODO
-
+- add readme
+- move media files
 - read about typing in python 3.x
 - configuration file
 + switch graphic library
 
 
+- guarantee minimal distance between sites
+
+
 ## Bugs
 - show sites in dark tiles
+- mark names as used in name_gen
 
 + transform tcod fov from square to circle
 + radius area effect

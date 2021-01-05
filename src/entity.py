@@ -187,6 +187,6 @@ class Site(Entity):
 			char=char,
 			color=color,
 			name=name,
-			blocks_movement=True,
+			blocks_movement=False,
 			render_order=RenderOrder.SITE,
 		)

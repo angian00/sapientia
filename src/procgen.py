@@ -8,6 +8,7 @@ import tcod
 
 import entity_factories
 from game_map import GameMap
+
 import tile_types
 import name_gen
 
@@ -20,8 +21,6 @@ if TYPE_CHECKING:
 
 
 max_n_sites = 8
-
-name_gen.load_all()
 
 
 def place_sites(map: GameMap, max_n_sites: int) -> None:

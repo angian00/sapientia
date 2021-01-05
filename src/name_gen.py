@@ -39,3 +39,7 @@ def gen_name(category):
 	freqs = name_data[category][1]
 
 	return random.choices(names, weights=freqs)[0]
+
+
+load_all()
+
