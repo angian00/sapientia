@@ -1,5 +1,6 @@
 ## TODO
 
+- read about typing in python 3.x
 - configuration file
 + switch graphic library
 
@@ -18,7 +19,7 @@
 	v experimenting with procgen: a monastery
 	v placing sites in the world
 		- two-level map
-		- site names
+		v site names
 
 	- experimenting with npcs
 	- placing (pacific) npcs in the world

@@ -208,7 +208,6 @@ class MainGameEventHandler(EventHandler):
 			return CharacterScreenEventHandler(self.engine)
 
 		elif key == tcod.event.K_COMMA:
-			print("Installing LookHandler")
 			return LookHandler(self.engine)
 
 		# No valid key was pressed

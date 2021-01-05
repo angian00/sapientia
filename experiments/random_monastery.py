@@ -4,9 +4,9 @@ import random
 
 
 size = "medium"
-people_name_file = "data/names_people.txt"
-site_name_file = "data/names_sites.txt"
-role_file = "data/roles_monastery.txt"
+people_name_file = "../data/names_people.txt"
+site_name_file = "../data/names_sites.txt"
+role_file = "../data/roles_monastery.txt"
 
 min_people_name_freq = 25
 

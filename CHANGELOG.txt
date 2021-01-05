@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - monastery experiment
 - (male) people first name file from Montaperti book
+- site name file
 
 ### Fixed
 - mapped stairs and look action keys
