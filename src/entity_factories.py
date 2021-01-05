@@ -4,7 +4,7 @@ from components.inventory import Inventory
 from components.level import Level
 from components.equipment import Equipment
 from components import consumable, equippable
-from entity import Actor, Item
+from entity import Actor, Item, Site
 
 
 #----------------------------------------------------
@@ -91,4 +91,8 @@ leather_armor = Item(
 chain_mail = Item(
 	char="[", color=(139, 69, 19), name="Chain Mail", equippable=equippable.ChainMail()
 )
+
+#----------------------------------------------------
+
+monastery = Site(char="*", name="Monastery")
 

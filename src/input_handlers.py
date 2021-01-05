@@ -173,14 +173,15 @@ class MainGameEventHandler(EventHandler):
 	def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
 		action: Optional[Action] = None
 
+		#print(event)
+		
 		key = event.sym
 		modifier = event.mod
 
 		player = self.engine.player
 
-		if key == tcod.event.K_PERIOD and modifier & (
-			tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
-		):
+
+		if key == tcod.event.K_BACKSLASH:
 			return actions.TakeStairsAction(player)
 
 
@@ -195,17 +196,19 @@ class MainGameEventHandler(EventHandler):
 		
 		elif key == tcod.event.K_v:
 			return HistoryViewer(self.engine)
-		
+
 		elif key == tcod.event.K_g:
 			action = PickupAction(player)
 		elif key == tcod.event.K_i:
 			return InventoryActivateHandler(self.engine)
 		elif key == tcod.event.K_d:
 			return InventoryDropHandler(self.engine)
+		
 		elif key == tcod.event.K_c:
 			return CharacterScreenEventHandler(self.engine)
 
-		elif key == tcod.event.K_SLASH:
+		elif key == tcod.event.K_COMMA:
+			print("Installing LookHandler")
 			return LookHandler(self.engine)
 
 		# No valid key was pressed

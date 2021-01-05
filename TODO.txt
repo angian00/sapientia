@@ -5,28 +5,21 @@
 
 
 ## Bugs
-- transform tcod fov from square to circle
-- radius area effect
-- mapping stairs key
-- messages for equipment for monsters
+- show sites in dark tiles
+
++ transform tcod fov from square to circle
++ radius area effect
++ messages for equipment for monsters
++ configurable international key mapping
 
 
 ## Milestones
 - v0.0.2:
 	v experimenting with procgen: a monastery
-	- placing sites in the world
-	- two-level map
+	v placing sites in the world
+		- two-level map
+		- site names
 
 	- experimenting with npcs
 	- placing (pacific) npcs in the world
-
-
-- v0.2:
-	- collocazione e raccolta piante
-
-- v0.3:
-	- generazione mondo con mappa a 2 livelli e nomi località
-
-
-
 

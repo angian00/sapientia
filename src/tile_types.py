@@ -59,21 +59,42 @@ down_stairs = new_tile(
 )
 
 
-terrain_palette = [
-	(165,165,141),
-	(183,183,164),
-	(107,112,92),
-	(203,153,126),
-	(221,190,169),
+
+
+def darken(color):
+	darken_factor = 0.75
+
+	return (
+		int(color[0]*darken_factor),
+		int(color[1]*darken_factor),
+		int(color[2]*darken_factor),
+	)
+
+
+terrain_info = [
+	(" ", (165,165,141)),
+	(" ", (183,183,164)),
+	("\u2229", (107,112,92)),
+	("\u2229", (203,153,126)),
+	("\u25B2", (221,190,169)),
 ]
 
-terrain = []
-for t_color in terrain_palette:
-	terrain.append(new_tile(
+terrain_tiles = []
+for t in terrain_info:
+	t_char = t[0]
+	t_color = t[1]
+	t_color_dark = darken(t_color)
+
+	terrain_tiles.append(new_tile(
 		walkable=True,
 		transparent=True,
-		dark=(ord(" "), (255, 0, 0), t_color), #TODO: make dark dark
-		light=(ord(" "), (255, 0, 0), t_color),
+		dark=(ord(t_char), darken(t_color_dark), t_color_dark),
+		light=(ord(t_char), t_color_dark, t_color),
 	)
 )
 
+terrain_plains_1  = terrain_tiles[0]
+terrain_plains_2  = terrain_tiles[1]
+terrain_hills_1   = terrain_tiles[2]
+terrain_hills_2   = terrain_tiles[3]
+terrain_mountains = terrain_tiles[4]
