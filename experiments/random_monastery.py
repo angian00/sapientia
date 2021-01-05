@@ -4,8 +4,10 @@ import random
 
 
 size = "medium"
-name_file = "data/names.txt"
+name_file = "data/names_people.txt"
 role_file = "data/roles_monastery.txt"
+
+name_freq_thr = 10
 
 
 sizes = {
@@ -15,6 +17,7 @@ sizes = {
 }
 
 names = []
+name_freqs = []
 roles = {}
 
 
@@ -44,9 +47,17 @@ def main():
 	print()
 
 	for p_name in people:
-		p_str = p_name
 		p = people[p_name]
-		if "role" in p:
+		p_role = p["role"] if "role" in p else None
+
+		p_str = ""
+		if p_role == "abate":
+			p_str += "* padre "
+		else:
+			p_str += "  frate "
+
+		p_str += p_name
+		if p_role:
 			p_str += ": " + p["role"]
 
 		print(p_str)
@@ -63,10 +74,15 @@ def load_names():
 				continue
 
 			tokens = line.strip().split("|")
-			names.append(tokens[0])
+			print(line)
+			name = tokens[0]
+			freq = int(tokens[1])
+			if freq >= name_freq_thr:
+				names.append(name)
+				name_freqs.append(freq)
 
 def random_name():
-	return random.choice(names)
+	return random.choices(names, weights=name_freqs)[0]
 
 
 def load_roles():
