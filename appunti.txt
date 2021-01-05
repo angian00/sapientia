@@ -50,7 +50,7 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 		- ingrediente
 		- item
 		- denaro
-		
+
 - libri --> frammenti di conoscenza
 - grafo riferimenti tra personaggi storici, tra personaggi e libri
 - piante
@@ -84,7 +84,4 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 - erbe (e creature) generati casualmente
 
 
-## Resources
-- erbario: da http://www.archeogat.it/archivio/zindex/Mostra%20Collina/collina%20torinese/pag_html/ortimedi.htm
-- bestiario: da https://www.bluedragon.it/bestiario/bestiario.htm
 

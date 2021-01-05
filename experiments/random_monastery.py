@@ -4,10 +4,11 @@ import random
 
 
 size = "medium"
-name_file = "data/names_people.txt"
+people_name_file = "data/names_people.txt"
+site_name_file = "data/names_sites.txt"
 role_file = "data/roles_monastery.txt"
 
-name_freq_thr = 10
+min_people_name_freq = 25
 
 
 sizes = {
@@ -16,21 +17,21 @@ sizes = {
 	"large": (16, 30),
 }
 
-names = []
-name_freqs = []
 roles = {}
 
 
 def main():
-	load_names()
+	people_names, people_name_freqs = load_names(people_name_file, min_people_name_freq)
+	site_names = load_names(site_name_file)[0]
 	load_roles()
 
+	site_name = random.choice(site_names)
 	n_min = sizes[size][0]
 	n_max = sizes[size][1]
 	n_people = random.randint(n_min, n_max-1)
 	people = {}
 	for i in range(n_people):
-		new_name = random_name()
+		new_name = random.choices(people_names, weights=people_name_freqs)[0]
 		people[new_name] = ({"name": new_name})
 
 	assign_roles(people, roles, size)
@@ -38,10 +39,11 @@ def main():
 
 	
 	print("------------------------------")
-	print("Random monastery")
+	print(" Random monastery")
 	print("------------------------------")
 	print()
 	
+	print(f"-- Abbey of {site_name} --")
 	print(f"size: {size}")
 	print(f"n_people: {n_people}")
 	print()
@@ -51,7 +53,7 @@ def main():
 		p_role = p["role"] if "role" in p else None
 
 		p_str = ""
-		if p_role == "abate":
+		if p_role == "abate" or p_role == "priore":
 			p_str += "* padre "
 		else:
 			p_str += "  frate "
@@ -66,23 +68,25 @@ def main():
 	print("------------------------------")
 
 
-def load_names():
-	with open(name_file) as f:
+def load_names(filename, name_freq_thr=0):
+	names = []
+	name_freqs = []
+
+	with open(filename) as f:
 		for line in f.readlines():
 			if line[0] == "#" or line.strip() == "":
 				#skip comments and empty lines
 				continue
 
 			tokens = line.strip().split("|")
-			print(line)
 			name = tokens[0]
-			freq = int(tokens[1])
+			freq = 1 if len(tokens) == 1 else int(tokens[1])
+
 			if freq >= name_freq_thr:
 				names.append(name)
 				name_freqs.append(freq)
 
-def random_name():
-	return random.choices(names, weights=name_freqs)[0]
+	return names, name_freqs
 
 
 def load_roles():
