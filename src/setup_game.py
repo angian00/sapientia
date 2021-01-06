@@ -1,6 +1,7 @@
 """Handle the loading and initialization of game sessions."""
 from __future__ import annotations
 
+import os.path
 import copy
 import lzma
 import pickle
@@ -16,8 +17,11 @@ from game_map import GameWorld
 import input_handlers
 
 
-# Load the background image and remove the alpha channel.
-background_image = tcod.image.load("menu_background.png")[:, :, :3]
+
+root_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Load the background image and remove the alpha channel
+background_image = tcod.image.load(root_dir + "/../media/menu_background.png")[:, :, :3]
 
 
 def new_game() -> Engine:
@@ -63,7 +67,7 @@ def new_game() -> Engine:
 
 def load_game(filename: str) -> Engine:
 	"""Load an Engine instance from a file."""
-	with open(filename, "rb") as f:
+	with open(root_dir + "/../savegame/" + filename, "rb") as f:
 		engine = pickle.loads(lzma.decompress(f.read()))
 	
 	assert isinstance(engine, Engine)

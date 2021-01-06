@@ -1,10 +1,13 @@
 ## TODO
-- add readme
 - move media files
 - read about typing in python 3.x
+- add more geographical names
 - configuration file
+- saints
+- relics
+- heresies
 + switch graphic library
-
++ name internationalization
 
 - guarantee minimal distance between sites
 
@@ -26,6 +29,20 @@
 		- two-level map
 		v site names
 
+- v0.0.3:
 	- experimenting with npcs
 	- placing (pacific) npcs in the world
+	- npc interaction
+
+
+- v0.0.4:
+	- generate books
+	- properly generate monastery level
+
+- v0.0.x:
+	- read about typing in python 3.x
+	- code review and refactoring
+
+- v0.1.0:
+	- switch graphics library
 
