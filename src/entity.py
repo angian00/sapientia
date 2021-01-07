@@ -182,6 +182,7 @@ class Site(Entity):
 		color: Tuple[int, int, int] = color.site_light,
 		dark_color: Tuple[int, int, int] = color.site_dark,
 		name: str = "<Unnamed>",
+		size: str = "small",
 	):
 		super().__init__(
 			x=x,
@@ -193,6 +194,7 @@ class Site(Entity):
 			render_order=RenderOrder.SITE,
 		)
 
+		self.size = size
 		self.dark_color = dark_color
 
 

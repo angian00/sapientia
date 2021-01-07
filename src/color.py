@@ -1,3 +1,7 @@
+from __future__ import annotations
+from typing import Tuple
+
+
 white = (0xFF, 0xFF, 0xFF)
 black = (0x0, 0x0, 0x0)
 red = (0xFF, 0x0, 0x0)
@@ -41,7 +45,7 @@ site_light = (0, 0, 200)
 site_dark  = (0, 0, 150)
 
 
-def darken(color):
+def darken(color: Tuple[int, int, int]) -> Tuple[int, int, int]:
 	darken_factor = 0.75
 
 	return (

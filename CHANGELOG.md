@@ -2,6 +2,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
+## [Unreleased]
+### Added
+- added missing type information up to a green run of mypy
+
+### Changed
+- changed .txt files extension to .md (to force GitHub Markdown view)
+
+
 
 ## [0.0.2] - 2021-01-07
 ### Added

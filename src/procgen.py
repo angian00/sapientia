@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 from typing import Iterator, List, Tuple, Dict, TYPE_CHECKING
 
-import numpy as np
+import numpy as np # type: ignore
 
 import tcod
 
@@ -29,7 +29,7 @@ min_site_distance = 5
 
 
 class Rectangle:
-	def __init__(self, x: int, y: int, width: int, height: int):
+	def __init__(self, x: int, y: int, width: int, height: int) -> None:
 		self.x1 = x
 		self.y1 = y
 		self.x2 = x + width

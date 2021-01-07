@@ -1,20 +1,25 @@
+from __future__ import annotations
+from typing import Sequence, Dict, Tuple, TYPE_CHECKING
+
+
 import random
 import os.path
 
 
-categories = ( "people", "sites" )
-name_data = {}
+
+categories: Sequence[str] = ( "people", "sites" )
+name_data: Dict[str, Tuple[Sequence[str], Sequence[int]]] = {}
 
 
-root_dir = os.path.dirname(os.path.realpath(__file__))
+root_dir: str = os.path.dirname(os.path.realpath(__file__))
 
 
-def load_all():
+def load_all() -> None:
 	for c in categories:
 		name_data[c] = load_names(root_dir + "/../data/names_" + c + ".txt")
 
 
-def load_names(filename):
+def load_names(filename: str) -> Tuple[Sequence[str], Sequence[int]]:
 	names = []
 	name_freqs = []
 
@@ -34,7 +39,7 @@ def load_names(filename):
 	return names, name_freqs
 
 
-def gen_name(category):
+def gen_name(category: str) -> str:
 	names = name_data[category][0]
 	freqs = name_data[category][1]
 

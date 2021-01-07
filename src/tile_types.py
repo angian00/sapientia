@@ -1,4 +1,5 @@
-from typing import Tuple
+from __future__ import annotations
+from typing import Tuple, List
 
 import numpy as np  # type: ignore
 
@@ -63,7 +64,7 @@ down_stairs = new_tile(
 
 
 
-terrain_info = [
+terrain_info: List[Tuple[str, Tuple[int, int, int]]] = [
 	(" ", color.terrain_plains_1),
 	(" ", color.terrain_plains_2),
 	("\u2229", color.terrain_hills_1),
@@ -71,7 +72,7 @@ terrain_info = [
 	("\u25B2", color.terrain_mountains),
 ]
 
-terrain_tiles = []
+terrain_tiles: List[np.ndarray] = []
 for t in terrain_info:
 	t_char = t[0]
 	t_color = t[1]

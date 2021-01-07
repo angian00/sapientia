@@ -3,7 +3,7 @@ from __future__ import annotations
 import lzma
 import pickle
 from typing import TYPE_CHECKING
-from typing import Iterable, Any
+from typing import Iterable, Optional, Any
 
 from tcod.console import Console
 from tcod.map import compute_fov

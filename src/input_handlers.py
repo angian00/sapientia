@@ -1,7 +1,8 @@
 from __future__ import annotations
-from typing import Callable, Optional, Tuple, Union, TYPE_CHECKING
+from typing import Optional, Callable, Tuple, Union, TYPE_CHECKING
 
-
+import os
+import os.path
 import tcod.event
 
 import actions
@@ -151,7 +152,7 @@ class EventHandler(BaseEventHandler):
 			action.perform()
 		except exceptions.Impossible as exc:
 			self.engine.message_log.add_message(exc.args[0], color.impossible)
-			return False  # Skip enemy turn on exceptions.
+			return False  # Skip enemy turn on exceptions
 
 		self.engine.handle_enemy_turns()
 
@@ -260,7 +261,6 @@ class AskUserEventHandler(EventHandler):
 
 		By default this returns to the main event handler.
 		"""
-		self.engine.event_handler = MainGameEventHandler(self.engine)
 		return MainGameEventHandler(self.engine)
 
 
@@ -550,6 +550,8 @@ class SelectIndexHandler(AskUserEventHandler):
 				return self.on_index_selected(*event.tile)
 			return super().ev_mousebuttondown(event)
 
+		return None
+		
 
 	def on_index_selected(self, x: int, y: int) -> Optional[ActionOrHandler]:
 		"""Called when an index is selected."""

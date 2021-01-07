@@ -13,7 +13,7 @@ import setup_game
 
 
 
-root_dir = os.path.dirname(os.path.realpath(__file__))
+root_dir: str = os.path.dirname(os.path.realpath(__file__))
 
 
 def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:

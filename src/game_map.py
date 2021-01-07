@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Iterable, Iterator, Optional, TYPE_CHECKING
+from typing import Dict, List, Iterable, Iterator, Tuple, Optional, Any, TYPE_CHECKING
 
 import numpy as np  # type: ignore
 import random
@@ -92,7 +92,7 @@ class GameMap:
 
 
 
-	def place_random(self, entity) -> None:
+	def place_random(self, entity: Entity) -> None:
 		while True:
 			x = random.randint(0, self.width-1)
 			y = random.randint(0, self.height-1)
@@ -146,11 +146,11 @@ class GameWorld:
 
 		self.map_width = map_width
 		self.map_height = map_height
-		self.map_stack = []
+		self.map_stack: List[Dict[str, Any]] = []
 
 
 	@property
-	def curr_map(self):
+	def curr_map(self) -> Optional[GameMap]:
 		if not self.map_stack:
 			return None
 
@@ -166,13 +166,13 @@ class GameWorld:
 			engine=self.engine,
 		)
 
-		self.site_maps = {}
+		self.site_maps: Dict[Site, GameMap] = {}
 		self.map_stack.clear()
 
 		self.push_map(self.world_map)
 
 
-	def push_local_map(self, target) -> None:
+	def push_local_map(self, target: Site) -> None:
 		from procgen import generate_local_map
 
 		self.map_stack[-1]["pos"] = (self.engine.player.x, self.engine.player.y)
@@ -187,15 +187,19 @@ class GameWorld:
 		self.push_map(self.site_maps[target])
 
 
-	def push_map(self, new_map) -> None:
+	def push_map(self, new_map: GameMap) -> None:
 		new_map.place_random(self.engine.player)
 		self.map_stack.append({"map": new_map, "pos": (self.engine.player.x, self.engine.player.y)})
 
-		self.engine.game_map = self.curr_map
+		self.engine.game_map = new_map
 
 
 	def pop_map(self) -> None:
 		self.map_stack.pop()
-		self.engine.player.place(*self.map_stack[-1]["pos"], self.curr_map)
+		
+		assert self.curr_map is not None
+
+		curr_pos: Tuple[int, int] = self.map_stack[-1]["pos"]
+		self.engine.player.place(curr_pos[0], curr_pos[1], self.curr_map)
 		self.engine.game_map = self.curr_map
 
