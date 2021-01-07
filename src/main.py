@@ -37,7 +37,7 @@ def main() -> None:
 		screen_width,
 		screen_height,
 		tileset=tileset,
-		title="Yet Another Roguelike Tutorial",
+		title="Antiqua Sapientia",
 		vsync=True,
 	) as context:
 

@@ -2,6 +2,8 @@ from typing import Tuple
 
 import numpy as np  # type: ignore
 
+import color
+
 
 # Tile graphics structured type compatible with Console.tiles_rgb
 graphic_dt = np.dtype(
@@ -35,20 +37,20 @@ def new_tile(
 
 
 # SHROUD represents unexplored, unseen tiles
-SHROUD = np.array((ord(" "), (255, 255, 255), (0, 0, 0)), dtype=graphic_dt)
+SHROUD = np.array((ord("\u2591"), (144, 144, 144), (0, 0, 0)), dtype=graphic_dt)
 
 floor = new_tile(
 	walkable=True,
 	transparent=True,
-	dark=(ord(" "), (255, 255, 255), (50, 50, 150)),
-	light=(ord(" "), (255, 255, 255), (200, 180, 50)),
+	dark=(ord(" "), (0, 0, 0), color.floor_dark),
+	light=(ord(" "), (0, 0, 0), color.floor_light),
 )
 
 wall = new_tile(
 	walkable=False,
 	transparent=False,
-	dark=(ord(" "), (255, 255, 255), (0, 0, 100)),
-	light=(ord(" "), (255, 255, 255), (130, 110, 50)),
+	dark=(ord(" "), color.wall_dark, color.wall_dark),
+	light=(ord(" "), color.wall_light, color.wall_light),
 )
 
 down_stairs = new_tile(
@@ -61,34 +63,24 @@ down_stairs = new_tile(
 
 
 
-def darken(color):
-	darken_factor = 0.75
-
-	return (
-		int(color[0]*darken_factor),
-		int(color[1]*darken_factor),
-		int(color[2]*darken_factor),
-	)
-
-
 terrain_info = [
-	(" ", (165,165,141)),
-	(" ", (183,183,164)),
-	("\u2229", (107,112,92)),
-	("\u2229", (203,153,126)),
-	("\u25B2", (221,190,169)),
+	(" ", color.terrain_plains_1),
+	(" ", color.terrain_plains_2),
+	("\u2229", color.terrain_hills_1),
+	("\u2229", color.terrain_hills_2),
+	("\u25B2", color.terrain_mountains),
 ]
 
 terrain_tiles = []
 for t in terrain_info:
 	t_char = t[0]
 	t_color = t[1]
-	t_color_dark = darken(t_color)
+	t_color_dark = color.darken(t_color)
 
 	terrain_tiles.append(new_tile(
 		walkable=True,
 		transparent=True,
-		dark=(ord(t_char), darken(t_color_dark), t_color_dark),
+		dark=(ord(t_char), color.darken(t_color_dark), t_color_dark),
 		light=(ord(t_char), t_color_dark, t_color),
 	)
 )

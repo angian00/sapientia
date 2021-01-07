@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Iterable, Iterator, Optional, TYPE_CHECKING
 
 import numpy as np  # type: ignore
+import random
 from tcod.console import Console
 
 from entity import Actor, Item, Site
@@ -29,7 +30,7 @@ class GameMap:
 			(width, height), fill_value=False, order="F"
 		)
 		
-		self.downstairs_location = (0, 0)
+		#self.downstairs_location = (0, 0)
 
 
 	@property
@@ -90,6 +91,19 @@ class GameMap:
 		return 0 <= x < self.width and 0 <= y < self.height
 
 
+
+	def place_random(self, entity) -> None:
+		while True:
+			x = random.randint(0, self.width-1)
+			y = random.randint(0, self.height-1)
+			
+			if self.tiles[x, y] != tile_types.wall and not self.get_blocking_entity_at_location(x, y):
+				break
+		
+		entity.place(x, y, self)
+
+
+
 	def render(self, console: Console) -> None:
 		"""
 		Renders the map.
@@ -111,9 +125,9 @@ class GameMap:
 		for entity in entities_sorted_for_rendering:
 			# Only print entities that are in the FOV
 			if self.visible[entity.x, entity.y]:
-				console.print(
-					x=entity.x, y=entity.y, string=entity.char, fg=entity.color
-				)
+				console.print(x=entity.x, y=entity.y, string=entity.char, fg=entity.color)
+			elif self.explored[entity.x, entity.y] and isinstance(entity, Site):
+				console.print(x=entity.x, y=entity.y, string=entity.char, fg=entity.dark_color)
 
 
 class GameWorld:
@@ -132,32 +146,56 @@ class GameWorld:
 
 		self.map_width = map_width
 		self.map_height = map_height
-		
+		self.map_stack = []
+
+
+	@property
+	def curr_map(self):
+		if not self.map_stack:
+			return None
+
+		return self.map_stack[-1]["map"]
+
 
 	def generate_world_map(self) -> None:
-		from procgen import generate_wilderness
+		from procgen import generate_wilderness_map
 
-		self.world_map = generate_wilderness(
+		self.world_map = generate_wilderness_map(
 			map_width=self.map_width,
 			map_height=self.map_height,
 			engine=self.engine,
 		)
 
 		self.site_maps = {}
-		self.engine.game_map = self.world_map
+		self.map_stack.clear()
+
+		self.push_map(self.world_map)
 
 
-	def switch_map(self, target) -> None:
-		from procgen import generate_wilderness
+	def push_local_map(self, target) -> None:
+		from procgen import generate_local_map
 
-		#if isinstance(target, Site)
+		self.map_stack[-1]["pos"] = (self.engine.player.x, self.engine.player.y)
+
 		if target not in self.site_maps:
-			self.site_maps[target] = generate_wilderness(
+			self.site_maps[target] = generate_local_map(
 				map_width=self.map_width,
 				map_height=self.map_height,
 				engine=self.engine,
 			)
 
-		self.engine.game_map = self.site_maps[target]
+		self.push_map(self.site_maps[target])
 
+
+	def push_map(self, new_map) -> None:
+		new_map.place_random(self.engine.player)
+		self.map_stack.append({"map": new_map, "pos": (self.engine.player.x, self.engine.player.y)})
+
+		self.engine.game_map = self.curr_map
+
+
+	def pop_map(self) -> None:
+		self.map_stack.pop()
+		self.engine.player.place(*self.map_stack[-1]["pos"], self.curr_map)
+		self.engine.game_map = self.curr_map
 

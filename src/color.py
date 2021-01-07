@@ -24,3 +24,28 @@ bar_empty = (0x40, 0x10, 0x10)
 
 menu_title = (255, 255, 63)
 menu_text = white
+
+
+
+terrain_plains_1  = (165,165,141)
+terrain_plains_2  = (183,183,164)
+terrain_hills_1   = (107,112,92)
+terrain_hills_2   = (203,153,126)
+terrain_mountains = (221,190,169)
+
+floor_dark  = (144, 144, 144)
+floor_light = (200, 200, 200)
+wall_dark  = (64, 64, 64)
+wall_light = (0, 0, 0)
+site_light = (0, 0, 200)
+site_dark  = (0, 0, 150)
+
+
+def darken(color):
+	darken_factor = 0.75
+
+	return (
+		int(color[0]*darken_factor),
+		int(color[1]*darken_factor),
+		int(color[2]*darken_factor),
+	)

@@ -6,6 +6,7 @@ import copy
 from typing import Optional, Tuple, Union, Type, TypeVar, TYPE_CHECKING
 
 from render_order import RenderOrder
+import color
 
 
 if TYPE_CHECKING:
@@ -178,7 +179,8 @@ class Site(Entity):
 		x: int = 0,
 		y: int = 0,
 		char: str = "?",
-		color: Tuple[int, int, int] = (0, 0, 255),
+		color: Tuple[int, int, int] = color.site_light,
+		dark_color: Tuple[int, int, int] = color.site_dark,
 		name: str = "<Unnamed>",
 	):
 		super().__init__(
@@ -190,3 +192,7 @@ class Site(Entity):
 			blocks_movement=False,
 			render_order=RenderOrder.SITE,
 		)
+
+		self.dark_color = dark_color
+
+

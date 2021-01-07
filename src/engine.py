@@ -7,6 +7,7 @@ from typing import Iterable, Any
 
 from tcod.console import Console
 from tcod.map import compute_fov
+from tcod import FOV_BASIC
 
 import exceptions
 import render_functions
@@ -39,13 +40,14 @@ class Engine:
 
 
 	def update_fov(self) -> None:
-		"""Recompute the visible area based on the players point of view."""
+		"""Recompute the visible area based on the players point of view"""
 		self.game_map.visible[:] = compute_fov(
 			self.game_map.tiles["transparent"],
 			(self.player.x, self.player.y),
 			radius=8,
+			algorithm=FOV_BASIC
 		)
-		# If a tile is "visible" it should be added to "explored".
+		# If a tile is "visible" it should be added to "explored"
 		self.game_map.explored |= self.game_map.visible
 
 

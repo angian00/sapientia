@@ -2,18 +2,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
-## [Unreleased]
+
+## [0.0.2] - 2021-01-07
 ### Added
-- monastery experiment
+- basic two-level map navigation ("sites")
 - (male) people first name file from Montaperti book
-- site name file
+- site names
 
 ### Fixed
 - mapped stairs and look action keys
 
 ### Changed
 - reorganized directory structure
-
+- changed tcod fov from square to circle
 
 
 ## [0.0.1] - 2021-01-04

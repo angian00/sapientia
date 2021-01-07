@@ -1,6 +1,4 @@
 ## TODO
-- move media files
-- read about typing in python 3.x
 - add more geographical names
 - configuration file
 - saints
@@ -9,14 +7,10 @@
 + switch graphic library
 + name internationalization
 
-- guarantee minimal distance between sites
+- mark names as used in name_gen
 
 
 ## Bugs
-- show sites in dark tiles
-- mark names as used in name_gen
-
-+ transform tcod fov from square to circle
 + radius area effect
 + messages for equipment for monsters
 + configurable international key mapping
@@ -26,7 +20,7 @@
 - v0.0.2:
 	v experimenting with procgen: a monastery
 	v placing sites in the world
-		- two-level map
+		v two-level map
 		v site names
 
 - v0.0.3:

@@ -24,8 +24,8 @@ class Action:
 
 	def perform(self) -> None:
 		"""Perform this action with the objects needed to determine its scope.
-		`self.engine` is the scope this action is being performed in.
-		`self.entity` is the object performing the action.
+		`self.engine` is the scope this action is being performed in
+		`self.entity` is the object performing the action
 		This method must be overridden by Action subclasses.
 		"""
 		raise NotImplementedError()
@@ -33,7 +33,7 @@ class Action:
 
 
 class PickupAction(Action):
-	"""Pickup an item and add it to the inventory, if there is room for it."""
+	"""Pickup an item and add it to the inventory, if there is room for it"""
 
 	def __init__(self, entity: Actor):
 		super().__init__(entity)
@@ -159,7 +159,7 @@ class BumpAction(ActionWithDirection):
 			return MeleeAction(self.entity, self.dx, self.dy).perform()
 
 		elif self.target_site:
-			return EnterSiteAction(self.entity, self.dx, self.dy).perform()
+			return EnterMapAction(self.entity, self.dx, self.dy).perform()
 
 		else:
 			return MovementAction(self.entity, self.dx, self.dy).perform()
@@ -181,12 +181,12 @@ class MeleeAction(ActionWithDirection):
 
 		if damage > 0:
 			self.engine.message_log.add_message(
-				f"{attack_desc} for {damage} hit points.", attack_color
+				f"{attack_desc} for {damage} hit points", attack_color
 			)
 			target.fighter.hp -= damage
 		else:
 			self.engine.message_log.add_message(
-				f"{attack_desc} but does no damage.", attack_color
+				f"{attack_desc} but does no damage", attack_color
 			)
 
 
@@ -195,8 +195,8 @@ class MovementAction(ActionWithDirection):
 		dest_x, dest_y = self.dest_xy
 
 		if not self.engine.game_map.in_bounds(dest_x, dest_y):
-			 # Destination is out of bounds
-			raise exceptions.Impossible("That way is blocked")
+			# Destination is out of bounds
+			return ExitMapAction(self.entity, self.dx, self.dy).perform()
 
 		if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
 			# Destination is blocked by a tile
@@ -209,10 +209,22 @@ class MovementAction(ActionWithDirection):
 		self.entity.move(self.dx, self.dy)
 
 
-class EnterSiteAction(ActionWithDirection):
+class EnterMapAction(ActionWithDirection):
 	def perform(self) -> None:
 		target = self.target_site
 		if not target:
 			raise exceptions.Impossible("No site to enter")
 
-		self.engine.game_world.switch_map(target)
+		self.engine.message_log.add_message(f"Entering {target.name}")
+		self.entity.move(self.dx, self.dy)
+		self.engine.game_world.push_local_map(target)
+
+
+class ExitMapAction(ActionWithDirection):
+	def perform(self) -> None:
+		if len(self.engine.game_world.map_stack) > 1:
+			self.engine.game_world.pop_map()
+			self.engine.message_log.add_message("Returning to world map")
+		else:
+			raise exceptions.Impossible("That way is blocked")
+		
