@@ -113,6 +113,7 @@ class Actor(Entity):
 		fighter: Fighter,
 		inventory: Inventory,
 		level: Level,
+		is_hostile: bool = False,
 	):
 		super().__init__(
 			x=x,
@@ -138,6 +139,7 @@ class Actor(Entity):
 		self.level = level
 		self.level.parent = self
 
+		self.is_hostile: bool = is_hostile
 		self.role: Optional[str] = None
 		
 

@@ -5,6 +5,7 @@ from typing import Optional, Tuple, TYPE_CHECKING
 import color
 import exceptions
 
+
 if TYPE_CHECKING:
 	from engine import Engine
 	from entity import Actor, Entity, Item, Site
@@ -157,7 +158,10 @@ class ActionWithDirection(Action):
 class BumpAction(ActionWithDirection):
 	def perform(self) -> None:
 		if self.target_actor:
-			return MeleeAction(self.entity, self.dx, self.dy).perform()
+			if self.target_actor.is_hostile:
+				return MeleeAction(self.entity, self.dx, self.dy).perform()
+			else:
+				return ChatAction(self.entity, self.dx, self.dy).perform()
 
 		elif self.target_site:
 			return EnterMapAction(self.entity, self.dx, self.dy).perform()
@@ -189,6 +193,17 @@ class MeleeAction(ActionWithDirection):
 			self.engine.message_log.add_message(
 				f"{attack_desc} but does no damage", attack_color
 			)
+
+
+class ChatAction(ActionWithDirection):
+	def perform(self) -> None:
+		target = self.target_actor
+		if not target:
+			raise exceptions.Impossible("Nothing to chat with")
+		
+		self.engine.message_log.add_message(f"You greet {target.name}");
+				
+	#TODO: ChatEventHandler(self.engine, action_or_state.target_actor)
 
 
 class MovementAction(ActionWithDirection):

@@ -6,14 +6,14 @@ import os.path
 import tcod.event
 
 import actions
-from actions import Action, BumpAction, PickupAction, DropItem, WaitAction
+from actions import Action, BumpAction, PickupAction, DropItem, WaitAction, ChatAction
 import color
 import exceptions
 
 
 if TYPE_CHECKING:
 	from engine import Engine
-	from entity import Item
+	from entity import Actor, Item
 
 
 MOVE_KEYS = {
@@ -211,6 +211,7 @@ class MainGameEventHandler(EventHandler):
 		elif key == tcod.event.K_COMMA:
 			return LookHandler(self.engine)
 
+
 		# No valid key was pressed
 		return action
 
@@ -312,6 +313,44 @@ class CharacterScreenEventHandler(AskUserEventHandler):
 		console.print(
 			x=x + 1, y=y + 5, string=f"Defense: {self.engine.player.fighter.defense}"
 		)
+
+
+
+class ChatEventHandler(AskUserEventHandler):
+
+	def __init__(self, engine: Engine, target: Actor):
+		self.engine: Engine = engine
+		self.target: Actor = target
+		self.TITLE = "Chatting with " + self.target.name
+
+
+	def on_render(self, console: tcod.Console) -> None:
+		super().on_render(console)
+
+		if self.engine.player.x <= 30:
+			x = 40
+		else:
+			x = 0
+
+		y = 0
+
+		width = len(self.TITLE) + 4
+
+		console.draw_frame(
+			x=x,
+			y=y,
+			width=width,
+			height=7,
+			title=self.TITLE,
+			clear=True,
+			fg=(255, 255, 255),
+			bg=(0, 0, 0),
+		)
+
+		console.print(
+			x=x + 1, y=y + 1, string="Hi!"
+		)
+
 
 
 

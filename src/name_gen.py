@@ -55,7 +55,6 @@ def assign_roles(people: List[Dict[str, Any]], category: str, size: str) -> None
 
 	roles = load_roles(category, size)
 
-	#TODO: sort roles by prob to be more robust if n_roles > n_people
 	for r_name in roles:
 		r_prob = float(roles[r_name])
 		if random.random() > r_prob:
@@ -94,7 +93,8 @@ def load_roles(category: str, size: str) -> Dict[str, float]:
 				val  = tokens[3]
 			roles[role] = float(val)
 
-	return roles
+	#sort roles by desc frequency
+	return dict(sorted(roles.items(), key=lambda item: -item[1]))
 
 
 
