@@ -23,12 +23,8 @@ class GameMap:
 		self.entities = set(entities)
 		self.tiles = np.full((width, height), fill_value=tile_types.floor, order="F")
 
-		self.visible = np.full(
-			(width, height), fill_value=False, order="F"
-		)
-		self.explored = np.full(
-			(width, height), fill_value=False, order="F"
-		)
+		self.visible = np.full((width, height), fill_value=False, order="F")
+		self.explored = np.full((width, height), fill_value=False, order="F")
 		
 		#self.downstairs_location = (0, 0)
 
@@ -182,6 +178,7 @@ class GameWorld:
 				map_width=self.map_width,
 				map_height=self.map_height,
 				engine=self.engine,
+				npcs = target.site_data.staff if target.site_data else None,
 			)
 
 		self.push_map(self.site_maps[target])

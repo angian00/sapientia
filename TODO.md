@@ -1,9 +1,10 @@
 ## TODO
-- add more geographical names
+- full visibility in local maps
+
 - configuration file
-- saints
-- relics
-- heresies
+- generate saints
+- generate relics
+- generate heresies
 
 + switch graphic library:
 	BearLibTerminal, SDL, ...
@@ -19,10 +20,9 @@
 + configurable international key mapping
 
 
-## Milestones
+## Plan of Next Releases
+
 - v0.0.3:
-	- experimenting with npcs
-	- placing (pacific) npcs in the world
 	- npc interaction
 
 

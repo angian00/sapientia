@@ -7,6 +7,7 @@ from typing import Optional, Tuple, Union, Type, TypeVar, TYPE_CHECKING
 
 from render_order import RenderOrder
 import color
+import metadata
 
 
 if TYPE_CHECKING:
@@ -57,6 +58,10 @@ class Entity:
 	@property
 	def gamemap(self) -> GameMap:
 		return self.parent.gamemap
+
+	@property
+	def display_name(self) -> str:
+		return self.name
 
 
 	def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:
@@ -133,11 +138,20 @@ class Actor(Entity):
 		self.level = level
 		self.level.parent = self
 
+		self.role: Optional[str] = None
+		
 
 	@property
 	def is_alive(self) -> bool:
 		"""Returns True as long as this actor can perform actions."""
 		return bool(self.ai)
+
+	@property
+	def display_name(self) -> str:
+		if self.role:
+			return self.name + " - " + self.role
+		else:
+			return self.name
 
 
 class Item(Entity):
@@ -196,5 +210,5 @@ class Site(Entity):
 
 		self.size = size
 		self.dark_color = dark_color
-
+		self.site_data: Optional[metadata.SiteData] = None 
 

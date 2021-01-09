@@ -51,7 +51,7 @@ class BaseAI(Action):
 
 
 
-class HostileEnemy(BaseAI):
+class HostileAI(BaseAI):
 	def __init__(self, entity: Actor):
 		super().__init__(entity)
 		self.path: List[Tuple[int, int]] = []
@@ -79,7 +79,7 @@ class HostileEnemy(BaseAI):
 
 
 
-class ConfusedEnemy(BaseAI):
+class ConfusedAI(BaseAI):
 	"""
 	A confused enemy will stumble around aimlessly for a given number of turns, then revert back to its previous AI.
 	If an actor occupies a tile it is randomly moving into, it will attack.
@@ -118,3 +118,9 @@ class ConfusedEnemy(BaseAI):
 			# The actor will either try to move or attack in the chosen random direction.
 			# Its possible the actor will just bump into the wall, wasting a turn.
 			return BumpAction(self.entity, direction_x, direction_y,).perform()
+
+
+class FriendlyAI(BaseAI):
+	def perform(self) -> None:
+		return WaitAction(self.entity).perform()
+

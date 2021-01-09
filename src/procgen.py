@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Iterator, List, Tuple, Dict, TYPE_CHECKING
+from typing import Iterator, List, Tuple, Dict, Optional, TYPE_CHECKING
 
 import numpy as np # type: ignore
 
@@ -13,6 +13,7 @@ from entity import Site
 
 import tile_types
 import name_gen
+from metadata import SiteData
 
 
 if TYPE_CHECKING:
@@ -43,6 +44,11 @@ class Rectangle:
 		return center_x, center_y
 
 	@property
+	def area(self) -> Tuple[slice, slice]:
+		"""Return the area of this room as a 2D array index"""
+		return slice(self.x1, self.x2), slice(self.y1, self.y2)
+
+	@property
 	def inner(self) -> Tuple[slice, slice]:
 		"""Return the inner area of this room as a 2D array index"""
 		return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
@@ -58,18 +64,18 @@ class Rectangle:
 
 
 
-def place_sites(map: GameMap, max_n_sites: int) -> None:
-	n_sites = random.randint(int(max_n_sites/2), max_n_sites)
+def place_sites(target_map: GameMap, n_sites: int) -> None:
+	i = 0
+	while i < n_sites:
+		#leave a 1 tile padding around the borders
+		x = random.randint(1, target_map.width - 2)
+		y = random.randint(1, target_map.height - 2)
 
-	for i in range(n_sites):
-		x = random.randint(0, map.width - 2)
-		y = random.randint(0, map.height - 2)
-
-		#if not any(entity.x == x and entity.y == y for entity in map.entities):
+		#if not any(entity.x == x and entity.y == y for entity in target_map.entities):
 
 		#guarantee minimal distance between sites
 		tile_is_ok = True
-		for entity in map.entities:
+		for entity in target_map.entities:
 			if (entity.x == x and entity.y == y) or \
 				(isinstance(entity, Site) and \
 				abs(entity.x - x) < min_site_distance and \
@@ -81,30 +87,42 @@ def place_sites(map: GameMap, max_n_sites: int) -> None:
 		if not tile_is_ok:
 			continue
 
-		new_site = entity_factories.monastery.spawn(map, x, y)
-		if map.tiles[x, y] == tile_types.terrain_mountains:
-			s_size = "small"
-		elif map.tiles[x, y] == tile_types.terrain_hills_1 or map.tiles[x, y] == tile_types.terrain_hills_2:
-			s_size = "medium"
-		else:
-			s_size = "large"
+		site_data = generate_monastery_data(target_map.tiles[x, y])
+		new_site = entity_factories.monastery.spawn(target_map, x, y)	
+		new_site.name = site_data.name
 
-		new_site.size = s_size
-		new_site.name = "Monastery of " + name_gen.gen_name("sites")
-
-		if s_size == "small":
+		if site_data.size == "small":
 			new_site.char = "+"
-		elif s_size == "medium":
+		elif site_data.size == "medium":
 			new_site.char = "\u00B1"
 		else:
 			new_site.char = "\u263C"
 
+		new_site.site_data = site_data
 
-def generate_wilderness_map(
-	map_width: int,
-	map_height: int,
-	engine: Engine,
-) -> GameMap:
+		i += 1
+
+
+def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
+	i = 0
+	for npc in npcs:
+		x = random.randint(0, target_map.width - 1)
+		y = random.randint(0, target_map.height - 1)
+
+		if  (not target_map.tiles["walkable"][x, y]) or \
+			any(entity.x == x and entity.y == y for entity in target_map.entities):
+			continue
+
+		new_monk = entity_factories.monk.spawn(target_map, x, y)
+		#new_monk.name = "frate " + name_gen.gen_name("people")
+		new_monk.name = npc["name"]
+		if "role" in npc:
+			new_monk.role = npc["role"]
+
+		i += 1
+
+
+def generate_wilderness_map(map_width: int, map_height: int, engine: Engine) -> GameMap:
 	"""Generate a new outside map"""
 
 	player = engine.player
@@ -143,25 +161,24 @@ def generate_wilderness_map(
 
 			new_map.tiles[x, y] = tile_types.terrain_tiles[i-1]
 
-	place_sites(new_map, max_n_sites)
+	n_sites = random.randint(int(max_n_sites/2), max_n_sites)
+	place_sites(new_map, n_sites)
 
 	return new_map
 
 
 
-def generate_local_map(
-	map_width: int,
-	map_height: int,
-	engine: Engine,
-) -> GameMap:
+def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Optional[List[Dict[str, str]]]) -> GameMap:
 	"""Generate a new local outdoor map"""
 
 	player = engine.player
 
 	new_map = GameMap(engine, map_width, map_height, entities=[player])
 
+	n_buildings = random.randint(int(max_n_buildings/2), max_n_buildings)
 	buildings: List[Rectangle] = []
-	for b in range(max_n_buildings):
+	i = 0
+	while i < n_buildings:
 		b_width = random.randint(building_min_size, building_max_size)
 		b_height = random.randint(building_min_size, building_max_size)
 
@@ -174,8 +191,48 @@ def generate_local_map(
 			# This building intersects, so go to the next attempt
 			continue
 
-		new_map.tiles[new_b.inner] = tile_types.wall
+		new_map.tiles[new_b.area] = tile_types.wall
 
 		buildings.append(new_b)
 
+		i += 1
+
+
+	if npcs:
+		place_npcs(new_map, npcs)
+
 	return new_map
+
+
+def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
+	s_name = "Monastery of " + name_gen.gen_name("sites")
+
+	if tile_type == tile_types.terrain_mountains:
+		s_size = "small"
+	elif tile_type == tile_types.terrain_hills_1 or tile_type == tile_types.terrain_hills_2:
+		s_size = "medium"
+	else:
+		s_size = "large"
+
+	new_site_data = SiteData(s_name, s_size)
+
+	if s_size == "small":
+		max_n_staff = 8
+
+	elif s_size == "medium":
+		max_n_staff = 16
+	
+	else:
+		max_n_staff = 32
+
+	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
+	for i in range(n_staff):
+		new_npc = { "name": "frate " + name_gen.gen_name("people") }
+		new_site_data.staff.append(new_npc)
+
+
+	name_gen.assign_roles(new_site_data.staff, "monastery", s_size)
+
+
+	return new_site_data
+

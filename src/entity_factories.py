@@ -1,9 +1,10 @@
-from components.ai import BaseAI, HostileEnemy
+from components.ai import BaseAI, HostileAI, FriendlyAI
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 from components.equipment import Equipment
 from components import consumable, equippable
+
 from entity import Actor, Item, Site
 
 
@@ -25,7 +26,7 @@ orc = Actor(
 	char="o",
 	color=(63, 127, 63),
 	name="Orc",
-	ai_cls=HostileEnemy,
+	ai_cls=HostileAI,
 	equipment=Equipment(),
 	fighter=Fighter(hp=10, base_defense=0, base_power=3),
 	inventory=Inventory(capacity=0),
@@ -36,11 +37,23 @@ troll = Actor(
 	char="T",
 	color=(0, 127, 0),
 	name="Troll",
-	ai_cls=HostileEnemy,
+	ai_cls=HostileAI,
 	equipment=Equipment(),
 	fighter=Fighter(hp=16, base_defense=1, base_power=4),
 	inventory=Inventory(capacity=0),
 	level=Level(xp_given=100),
+)
+
+#----------------------------------------------------
+monk = Actor(
+	char="m",
+	color=(160, 82, 45),
+	name="frate",
+	ai_cls=FriendlyAI,
+	equipment=Equipment(),
+	fighter=Fighter(hp=10, base_defense=1, base_power=1),
+	inventory=Inventory(capacity=10),
+	level=Level(xp_given=0),
 )
 
 #----------------------------------------------------

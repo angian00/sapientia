@@ -19,6 +19,10 @@ if TYPE_CHECKING:
 	from game_map import GameMap, GameWorld
 
 
+# DEBUG
+fov_full = True
+#
+
 class Engine:
 	game_map: GameMap
 	game_world: GameWorld
@@ -41,12 +45,17 @@ class Engine:
 
 	def update_fov(self) -> None:
 		"""Recompute the visible area based on the players point of view"""
-		self.game_map.visible[:] = compute_fov(
-			self.game_map.tiles["transparent"],
-			(self.player.x, self.player.y),
-			radius=8,
-			algorithm=FOV_BASIC
-		)
+		if fov_full:
+			import numpy as np # type: ignore
+			self.game_map.visible[:] = np.full((self.game_map.width, self.game_map.height), fill_value=True, order="F")
+		else:
+			self.game_map.visible[:] = compute_fov(
+				self.game_map.tiles["transparent"],
+				(self.player.x, self.player.y),
+				radius=8,
+				algorithm=FOV_BASIC
+			)
+
 		# If a tile is "visible" it should be added to "explored"
 		self.game_map.explored |= self.game_map.visible
 

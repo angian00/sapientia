@@ -20,7 +20,9 @@ Inspired by "The name of the rose" by Umberto Eco.
 For reference I report here both fictional and real events.
 
 1115 Clairvaux Abbey founded
+1208-1229 persecution of the Cathars
 1209 Franciscan order founded
 1217 Dominican order founded
-1307 fra Dolcino da Novara is burnt alive for heresy
+1233 pope Gregorio IX formally institutes the Inquisition
 1327 Adso da Melk and Guglielmo da Baskerville live their adventure in "The name of the rose"
+1346 the Black Plague arrives in Europe

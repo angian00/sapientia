@@ -4,7 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added missing type information up to a green run of mypy
+- added missing type information and checked with mypy
+- added pacific npcs (monks)
 
 ### Changed
 - changed .txt files extension to .md (to force GitHub Markdown view)
