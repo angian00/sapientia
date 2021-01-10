@@ -1,5 +1,4 @@
 ## TODO
-- full visibility in local maps
 
 - configuration file
 - generate saints
@@ -22,17 +21,14 @@
 
 ## Plan of Next Releases
 
-- v0.0.3:
-	- npc interaction
-
-
 - v0.0.4:
-	- generate books
+	- generate books, relics, heresies
 	- properly generate monastery level
 
 
 - v0.0.x:
 	- further code review (all in packages, startup script)
+	- npc interaction
 
 
 - v0.1.0:

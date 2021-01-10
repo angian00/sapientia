@@ -7,7 +7,7 @@ import os.path
 
 
 
-categories: Sequence[str] = ( "people", "sites" )
+categories: Sequence[str] = ( "people", "sites", "sites_international" )
 name_data: Dict[str, Tuple[Sequence[str], Sequence[int]]] = {}
 
 
@@ -47,13 +47,13 @@ def gen_name(category: str) -> str:
 
 
 
-def assign_roles(people: List[Dict[str, Any]], category: str, size: str) -> None:
+def assign_roles(people: List[Dict[str, Any]], category: str, site_size: str) -> None:
 	""" only 0 or 1 role per person """
 
 	candidates = list(range(len(people)))
 	chosen_roles: Dict[int, str] = {}
 
-	roles = load_roles(category, size)
+	roles = load_roles(category, site_size)
 
 	for r_name in roles:
 		r_prob = float(roles[r_name])
@@ -73,7 +73,7 @@ def assign_roles(people: List[Dict[str, Any]], category: str, size: str) -> None
 		people[i]["role"] = chosen_roles[i]
 
 
-def load_roles(category: str, size: str) -> Dict[str, float]:
+def load_roles(category: str, site_size: str) -> Dict[str, float]:
 	roles: Dict[str, float] = {}
 	
 	role_file = root_dir + "/../data/roles_" + category + ".txt"
@@ -85,9 +85,9 @@ def load_roles(category: str, size: str) -> Dict[str, float]:
 
 			tokens = line.strip().split("|")
 			role = tokens[0]
-			if category == "small":
+			if site_size == "large":
 				val = tokens[1]
-			elif category == "medium":
+			elif site_size == "medium":
 				val = tokens[2]
 			else:
 				val  = tokens[3]

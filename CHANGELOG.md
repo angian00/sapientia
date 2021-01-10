@@ -2,10 +2,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
-## [Unreleased]
+## [0.0.3] - 2021-01-10
 ### Added
-- added missing type information and checked with mypy
-- added pacific npcs (monks)
+- international site names
+- pacific npcs (monks), with roles
+- completed type annotations and checked with mypy
 
 ### Changed
 - changed .txt files extension to .md (to force GitHub Markdown view)

@@ -205,6 +205,9 @@ class MainGameEventHandler(EventHandler):
 		elif key == tcod.event.K_d:
 			return InventoryDropHandler(self.engine)
 		
+		elif key == tcod.event.K_t:
+			return NPCEventHandler(self.engine)
+
 		elif key == tcod.event.K_c:
 			return CharacterScreenEventHandler(self.engine)
 
@@ -316,12 +319,14 @@ class CharacterScreenEventHandler(AskUserEventHandler):
 
 
 
-class ChatEventHandler(AskUserEventHandler):
+class NPCEventHandler(AskUserEventHandler):
 
-	def __init__(self, engine: Engine, target: Actor):
+	def __init__(self, engine: Engine):
 		self.engine: Engine = engine
-		self.target: Actor = target
-		self.TITLE = "Chatting with " + self.target.name
+		#TODO: set closest Actor as target
+		#self.target: Actor = target
+		#self.TITLE = "Chatting with " + self.target.name
+		self.TITLE = "Chatting with " + "<TODO>"
 
 
 	def on_render(self, console: tcod.Console) -> None:

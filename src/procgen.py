@@ -227,11 +227,17 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 
 	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
 	for i in range(n_staff):
-		new_npc = { "name": "frate " + name_gen.gen_name("people") }
+		new_npc = { "name": name_gen.gen_name("people") }
 		new_site_data.staff.append(new_npc)
 
 
 	name_gen.assign_roles(new_site_data.staff, "monastery", s_size)
+	for new_npc in new_site_data.staff:
+		if "role" in new_npc and (new_npc["role"] == "abate" or new_npc["role"] == "priore"):
+			new_npc["name"] = "padre " + new_npc["name"] + " da " + name_gen.gen_name("sites_international")
+		else:
+			new_npc["name"] = "frate " + new_npc["name"]
+
 
 
 	return new_site_data
