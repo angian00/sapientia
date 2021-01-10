@@ -1,7 +1,6 @@
 # Antiqua Sapientia
 
 A roguelike set in Middle Ages Italy.
-You have to read old books, 
 Inspired by "The name of the rose" by Umberto Eco.
 
 ## Requirements
@@ -10,8 +9,8 @@ Inspired by "The name of the rose" by Umberto Eco.
 
 
 ## Running the game
-- `git clone` the project
 - open a terminal
+- `git clone` the project
 - navigate to `<project dir>/src`
 - run `python3 ./main.py`
 
@@ -19,10 +18,12 @@ Inspired by "The name of the rose" by Umberto Eco.
 ## History Timeline
 For reference I report here both fictional and real events.
 
-1115 Clairvaux Abbey founded
-1208-1229 persecution of the Cathars
-1209 Franciscan order founded
-1217 Dominican order founded
-1233 pope Gregorio IX formally institutes the Inquisition
-1327 Adso da Melk and Guglielmo da Baskerville live their adventure in "The name of the rose"
-1346 the Black Plague arrives in Europe
+| Year      | Event |
+| ----------- | ----------- |
+| 1115 | Clairvaux Abbey founded |
+| 1208-1229 | persecution of the Cathars |
+| 1209 | Franciscan order founded |
+| 1217 | Dominican order founded |
+| 1233 | pope Gregorio IX formally institutes the Inquisition |
+| 1327 | Adso da Melk and Guglielmo da Baskerville live their adventure in "The name of the rose" |
+| 1346 | the Black Plague arrives in Europe |
