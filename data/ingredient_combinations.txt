@@ -1,0 +1,2 @@
+#ingredient_1|ingredient_2|product
+henbane|nightshade|poison

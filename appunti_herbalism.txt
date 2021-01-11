@@ -12,7 +12,7 @@ henbane
 - modalità: bevande, unzioni, vapori
 - effetti: follia momentanea, illusioni dolci, sogni demoniaci
 
-### Mandragora (Mandragora )
+### Mandragora (Mandragora sp.)
 mandrake
 - parti: radice
 - modalità: polvere
@@ -36,19 +36,19 @@ wolfsbane
 - modalità: infusione, polvere
 - effetti: insensibilità
 
-### Colchico (Colchicum)
+### Colchico (Colchicum sp.)
 Naked ladies
 - parti: bacche
 - modalità: infusione
 - effetti: terrore
 
-### Canapa (Cannabis)
+### Canapa (Cannabis indica)
 Hemp
 - parti: 
 - modalità: pastiglie
 - effetti: delirio
 
-### Elleboro (Helleborus)
+### Elleboro (Helleborus sp.)
 Hellebore
 - parti: radice
 - modalità: polvere

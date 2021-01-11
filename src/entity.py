@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 	from components.ai import BaseAI
 	from components.consumable import Consumable
 	from components.equippable import Equippable
+	from components.combinable import Combinable
 	from components.fighter import Fighter
 	from components.inventory import Inventory
 	from components.level import Level
@@ -167,6 +168,7 @@ class Item(Entity):
 		name: str = "<Unnamed>",
 		consumable: Optional[Consumable] = None,
 		equippable: Optional[Equippable] = None,
+		combinable: Optional[Combinable] = None,
 	):
 		super().__init__(
 			x=x,
@@ -186,6 +188,9 @@ class Item(Entity):
 		if self.equippable:
 			self.equippable.parent = self
 
+		self.combinable = combinable
+		if self.combinable:
+			self.combinable.parent = self
 
 
 class Site(Entity):

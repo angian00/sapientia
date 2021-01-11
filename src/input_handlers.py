@@ -523,6 +523,22 @@ class InventoryActivateHandler(InventoryEventHandler):
 			return item.consumable.get_action(self.engine.player)
 		elif item.equippable:
 			return actions.EquipAction(self.engine.player, item)
+		elif item.combinable:
+			return InventoryDoubleHandler(self.engine, item)
+		else:
+			return None
+
+
+class InventoryDoubleHandler(InventoryEventHandler):
+	TITLE = "Select the second item to use"
+
+	def __init__(self, engine: Engine, item1: Item):
+		self.engine = engine
+		self.item1 = item1
+
+	def on_item_selected(self, item2: Item) -> Optional[ActionOrHandler]:
+		if (item2 != self.item1) and item2.combinable:
+			return actions.CombineAction(self.engine.player, self.item1, item2)
 		else:
 			return None
 

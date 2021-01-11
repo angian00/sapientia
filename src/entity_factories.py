@@ -3,17 +3,22 @@ from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 from components.equipment import Equipment
-from components import consumable, equippable
+from components import consumable, equippable, combinable
 
-from entity import Actor, Item, Site
+from entity import Entity, Actor, Item, Site
 
+
+#----------------------------------------------------
+
+def get_entity_by_id(entity_id: str) -> Entity:
+	return poison_potion
 
 #----------------------------------------------------
 
 player = Actor(
 	char="@",
 	color=(255, 255, 255),
-	name="Player",
+	name="player",
 	ai_cls=BaseAI,
 	equipment=Equipment(),
 	fighter=Fighter(hp=30, base_defense=2, base_power=5),
@@ -25,7 +30,7 @@ player = Actor(
 orc = Actor(
 	char="o",
 	color=(63, 127, 63),
-	name="Orc",
+	name="orc",
 	ai_cls=HostileAI,
 	equipment=Equipment(),
 	fighter=Fighter(hp=10, base_defense=0, base_power=3),
@@ -37,7 +42,7 @@ orc = Actor(
 troll = Actor(
 	char="T",
 	color=(0, 127, 0),
-	name="Troll",
+	name="troll",
 	ai_cls=HostileAI,
 	equipment=Equipment(),
 	fighter=Fighter(hp=16, base_defense=1, base_power=4),
@@ -64,51 +69,67 @@ monk = Actor(
 health_potion = Item(
 	char="!",
 	color=(127, 0, 255),
-	name="Health Potion",
+	name="health potion",
 	consumable=consumable.HealingConsumable(amount=4),
 )
 
 lightning_scroll = Item(
 	char="~",
 	color=(255, 255, 0),
-	name="Lightning Scroll",
+	name="lightning scroll",
 	consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
 confusion_scroll = Item(
    char="~",
    color=(207, 63, 255),
-   name="Confusion Scroll",
+   name="confusion scroll",
    consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 
 fireball_scroll = Item(
    char="~",
    color=(255, 0, 0),
-   name="Fireball Scroll",
+   name="fireball scroll",
    consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
+
+
+poison_potion = Item(
+	char="!",
+	color=(255, 0, 0),
+	name="poison potion",
+	consumable=consumable.PoisonConsumable(amount=4),
+)
+
 
 #----------------------------------------------------
 
 dagger = Item(
-	char="/", color=(0, 191, 255), name="Dagger", equippable=equippable.Dagger()
+	char="/", color=(0, 191, 255), name="dagger", equippable=equippable.Dagger()
 )
 
-sword = Item(char="/", color=(0, 191, 255), name="Sword", equippable=equippable.Sword())
+sword = Item(char="/", color=(0, 191, 255), name="sword", equippable=equippable.Sword())
 
 leather_armor = Item(
 	char="[",
 	color=(139, 69, 19),
-	name="Leather Armor",
+	name="leather armor",
 	equippable=equippable.LeatherArmor(),
 )
 
 chain_mail = Item(
-	char="[", color=(139, 69, 19), name="Chain Mail", equippable=equippable.ChainMail()
+	char="[", color=(139, 69, 19), name="chain mail", equippable=equippable.ChainMail()
 )
 
 #----------------------------------------------------
 
-monastery = Site(char="*", name="Monastery")
+herb = Item(
+	char=",", color=(40, 255, 50), name="<unknown herb>", combinable=combinable.Combinable()
+)
+
+
+#----------------------------------------------------
+
+monastery = Site(char="*", name="monastery")
 

@@ -1,11 +1,5 @@
 ## TODO
 
-- nomi chiese di roma (non-santi)
-- monks orders and color
-	- black: dominican
-	- white: cistercian
-	- brown: franciscan
-	? clunisian
 
 - configuration file
 	- language for plant/common names
@@ -28,7 +22,6 @@
 ## Plan of Next Releases
 
 - v0.0.4:
-	- combine ingredients
 	- trade with monks
 
 - v0.0.5:

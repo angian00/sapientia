@@ -15,6 +15,12 @@ Inspired by "The name of the rose" by Umberto Eco.
 - run `python3 ./main.py`
 
 
+## UI
+- ESC to exit a dialog or the game
+- arrow keys or hjkl for movement
+- other keys: i = inventory, c = character screen
+
+
 ## History Timeline
 For reference I report here both fictional and real events.
 

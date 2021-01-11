@@ -98,6 +98,16 @@ class EquipAction(Action):
 		self.entity.equipment.toggle_equip(self.item)
 
 
+class CombineAction(Action):
+	def __init__(self, entity: Actor, item1: Item, item2: Item):
+		super().__init__(entity)
+		self.item1 = item1
+		self.item2 = item2
+
+	def perform(self) -> None:
+		if self.item1.combinable and self.item2.combinable:
+			self.item1.combinable.combine(self.item2.combinable)
+
 
 class WaitAction(Action):
 	def perform(self) -> None:

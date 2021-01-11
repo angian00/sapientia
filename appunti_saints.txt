@@ -1,14 +1,13 @@
 # Church/sanctuary name generation
 
-<just the saint>|20
+<just the saint, with its attribute (minore, ...)>|20
+<two saints>|2
 <saint + decoration>|7
-<saint mary + attr>|4
-<saint mary + decoration>|4
+<santa maria + random attr>|4
+<santa maria + decoration>|4
 <jesus or other>|3
 
-
-san x
-santi x e y
+## saint decoration
 san x in y
 san x al y
 san x sopra y
@@ -18,7 +17,7 @@ santi al/alla/alle/ai [n] monti
 						fontane
 						colli
 
-
+## santa maria attributes
 santa maria addolorata
 santa maria assunta
 santa maria immacolata
@@ -57,7 +56,7 @@ santa maria delle grazie
 gran madre di dio
 nostra signora del sacro cuore di Gesù
 santissima annunziata
-natività di maria santissima
+natività di maria
 maria santissima
 madonna del rosario
 madonna del divino amore

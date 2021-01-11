@@ -65,6 +65,16 @@ class HealingConsumable(Consumable):
 			raise Impossible(f"Your health is already full")
 
 
+class PoisonConsumable(Consumable):
+	def __init__(self, amount: int):
+		self.amount = amount
+
+	def activate(self, action: actions.ItemAction) -> None:
+		consumer = action.entity
+		consumer.fighter.take_damage(self.amount)
+		self.consume()
+
+
 class LightningDamageConsumable(Consumable):
 	def __init__(self, damage: int, maximum_range: int):
 		self.damage = damage

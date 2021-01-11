@@ -1,0 +1,25 @@
+[
+{
+	"englishName": "henbane",
+	"italianName": "giusquiamo",
+	"linnaeusName": "Hyoscyamus niger",
+	"description": "Pale yellow, bell-shaped flowers with purple veins. The plant is 30 inches (75 cm) tall and has hairy leaves that are sticky to the touch.",
+	"frequency": 10
+},
+{
+	"englishName": "nightshade",
+	"italianName": "belladonna",
+	"linnaeusName": "Atropa belladonna",
+	"description": "Plants grow to 2 m (7 ft) tall with ovate leaves 18 cm (7 in) long. The bell-shaped flowers are dull purple with green tinges and faintly scented. The fruits are berries, which are green, ripening to a shiny black, and approximately 1.5 cm (0.6 in) in diameter.",
+	"frequency": 8
+},
+{
+	"englishName": "mandrake",
+	"italianName": "mandragola",
+	"linnaeusName": "Mandragora sp.",
+	"description": "This plant has a short stem bearing a tuft of ovate leaves. The flowers are solitary with a bell-shaped corolla of five purple petals. The fruit is a fleshy orange-coloured berry.",
+	"frequency": 1
+}
+
+]
+
