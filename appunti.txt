@@ -31,6 +31,8 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 	- bestiario
 	- biografie
 	- storie dei luoghi
+	- penitenziario (elenco peccati e penitenze)
+	- inni sacri
 - generazione e collocazione libri
 - generazione e collocazione altri items:
 	- equipaggiamento
@@ -66,9 +68,13 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 		- polvere
 		- decotto
 		- impiastro
-	polvere X + decotto   Y  = decotto   (X + Y)
-	polvere X + impiastro Y  = impiastro (X + Y)
-	decotto X + impiastro Y  = impiastro (X + Y)
+		- elettuario
+	polvere    X  +  elettuario Y  = elettuario (X + Y)
+	polvere    X  +  decotto    Y  = decotto    (X + Y)
+	elettuario X  +  decotto    Y  = decotto    (X + Y)
+	polvere    X  +  impiastro  Y  = impiastro  (X + Y)
+	elettuario X  +  impiastro  Y  = impiastro  (X + Y)
+	decotto    X  +  impiastro  Y  = impiastro  (X + Y)
 
 - creature
 	- occasione di conoscenza:

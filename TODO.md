@@ -1,9 +1,14 @@
 ## TODO
 
+- nomi chiese di roma (non-santi)
+- monks orders and color
+	- black: dominican
+	- white: cistercian
+	- brown: franciscan
+	? clunisian
+
 - configuration file
-- generate saints
-- generate relics
-- generate heresies
+	- language for plant/common names
 
 + switch graphic library:
 	BearLibTerminal, SDL, ...
@@ -14,6 +19,7 @@
 
 
 ## Bugs
+? monks names generation isn't too random
 + radius area effect
 + messages for equipment for monsters
 + configurable international key mapping
@@ -22,7 +28,11 @@
 ## Plan of Next Releases
 
 - v0.0.4:
-	- generate books, relics, heresies
+	- combine ingredients
+	- trade with monks
+
+- v0.0.5:
+	- generate books, relics, heresies, saints
 	- properly generate monastery level
 
 

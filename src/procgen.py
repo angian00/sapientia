@@ -11,6 +11,7 @@ import entity_factories
 from game_map import GameMap
 from entity import Site
 
+import color
 import tile_types
 import name_gen
 from metadata import SiteData
@@ -114,8 +115,16 @@ def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
 			continue
 
 		new_monk = entity_factories.monk.spawn(target_map, x, y)
-		#new_monk.name = "frate " + name_gen.gen_name("people")
+
 		new_monk.name = npc["name"]
+
+		if npc["order"] == "franciscan":
+			new_monk.color = color.brown
+		elif npc["order"] == "dominican":
+			new_monk.color = color.black
+		else:
+			new_monk.color = color.white
+
 		if "role" in npc:
 			new_monk.role = npc["role"]
 
@@ -206,6 +215,7 @@ def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Op
 
 def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 	s_name = "Monastery of " + name_gen.gen_name("sites")
+	s_order = random.choice(["dominican", "franciscan", "cistercian"])
 
 	if tile_type == tile_types.terrain_mountains:
 		s_size = "small"
@@ -214,7 +224,7 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 	else:
 		s_size = "large"
 
-	new_site_data = SiteData(s_name, s_size)
+	new_site_data = SiteData(s_name, s_size, s_order)
 
 	if s_size == "small":
 		max_n_staff = 8
@@ -227,7 +237,7 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 
 	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
 	for i in range(n_staff):
-		new_npc = { "name": name_gen.gen_name("people") }
+		new_npc = { "name": name_gen.gen_name("people"), "order": s_order }
 		new_site_data.staff.append(new_npc)
 
 

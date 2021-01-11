@@ -12,7 +12,9 @@ class SiteData:
 		self,
 		name: str,
 		size: str,
+		faction: str,
 	):
 		self.name = name
 		self.size = size
+		self.faction = faction
 		self.staff: List[Dict[str, str]] = []
