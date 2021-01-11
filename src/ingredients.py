@@ -16,16 +16,12 @@ combinations: Dict[str, Dict[str, str]] = {}
 
 
 def load_herbs() -> None:
-	global herb_data, herb_names
-
 	herb_file = root_dir + "/../data/herbs.json"
 	with open(herb_file) as f:
 		json_data = json.load(f)
 
 	for hd in json_data:
 		herb_data[hd["englishName"]] = hd
-
-	herb_names = list(herb_data.keys())
 
 
 def load_combinations() -> None:
@@ -52,7 +48,13 @@ def load_combinations() -> None:
 
 
 def gen_herb() -> str:
-	return random.choice(herb_names)
+	herb_names = list(herb_data.keys())
+	herb_freqs: List[float] = []
+
+	for h_name in herb_names:
+		herb_freqs.append(herb_data[h_name]["frequency"])
+
+	return random.choices(herb_names, herb_freqs)[0]
 
 
 def get_combination(ingr1: str, ingr2: str) -> Optional[str]:

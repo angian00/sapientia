@@ -38,4 +38,5 @@ class Combinable(BaseComponent):
 		assert isinstance(prod, Item)
 		self.engine.message_log.add_message(f"You produced a {prod.name}!")
 
+		prod.parent = inventory
 		inventory.items.append(prod)

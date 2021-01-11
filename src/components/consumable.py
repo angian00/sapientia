@@ -71,6 +71,7 @@ class PoisonConsumable(Consumable):
 
 	def activate(self, action: actions.ItemAction) -> None:
 		consumer = action.entity
+		f"You consume the {self.parent.name}, and get poisoned for {self.amount} HP!",
 		consumer.fighter.take_damage(self.amount)
 		self.consume()
 
