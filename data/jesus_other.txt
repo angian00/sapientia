@@ -1,0 +1,31 @@
+#
+Annunziata|10
+Gran Madre di Dio|3
+Nostra Signora del Sacro Cuore di Gesù|1
+Santissima Annunziata|4
+Natività di Maria|1
+Maria Santissima|5
+Madonna del Rosario|5
+Madonna del Divino Amore|3
+#
+Santa Croce|5
+Santissimo Crocefisso|3
+Santissimo Redentore|1
+Santissimo Rosario|1
+Santissimo Sacramento|1
+Santissimo Sudario|1
+Santissimo Nome di Gesù|1
+#
+Sacra Famiglia di Nazareth|2
+Sacro Cuore di Gesù|4
+Preziosissimo Sangue|3
+Natività|5
+Resurrezione|5
+Trasfigurazione|1
+Gesù|10
+Gesù Nazareno|3
+Cinque Piaghe|1
+Spirito Santo|10
+Trinità|10
+Divino Amore|5
+Corpus Christi|1

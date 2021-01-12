@@ -1,0 +1,37 @@
+#
+Addolorata|5
+Assunta|5
+Immacolata|5
+Liberatrice|3
+Madre della Misericordia|1
+Madre del Redentore|1
+Mediatrice|1
+Regina Pacis|1
+#
+degli Angeli e dei Martiri|1
+dei Miracoli|4
+dei Sette Dolori|1
+del Buon Aiuto|1
+del Buon Consiglio|2
+del Buon Viaggio|1
+del Carmelo|3
+del Carmine|1
+del Popolo|2
+del Priorato|1
+del Riposo|2
+del Ritiro|1
+del Rosario|4
+del Soccorso|5
+del Suffragio|4
+della Concezione|1
+della Consolazione|2
+della Perserveranza|1
+della Pietà|1
+della Provvidenza|1
+della Salute|4
+della Speranza|3
+della Umiltà|1
+della Visitazione|1
+della Vittoria|1
+delle Grazie|5
+	

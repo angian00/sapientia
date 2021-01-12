@@ -25,7 +25,7 @@
 	- trade with monks
 
 - v0.0.5:
-	- generate books, relics, heresies, saints
+	- generate books, relics, heresies
 	- properly generate monastery level
 
 

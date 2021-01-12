@@ -14,6 +14,7 @@ from entity import Site
 import color
 import tile_types
 import name_gen
+import church_gen
 import ingredients
 from metadata import SiteData
 
@@ -235,7 +236,9 @@ def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Op
 
 
 def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
-	s_name = "monastery of " + name_gen.gen_name("sites")
+	#s_name = "monastery of " + name_gen.gen_name("sites")
+	s_name = "monastery of " + church_gen.gen_church_name()
+	
 	s_order = random.choice(["dominican", "franciscan", "cistercian"])
 
 	if tile_type == tile_types.terrain_mountains:

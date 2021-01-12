@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, Sequence, Any, Optional
+from typing import Dict, Sequence, List, Any, Optional
 
 import os.path
 import json

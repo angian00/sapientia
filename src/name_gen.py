@@ -47,6 +47,30 @@ def gen_name(category: str) -> str:
 
 
 
+def load_roles(category: str, site_size: str) -> Dict[str, float]:
+	roles: Dict[str, float] = {}
+	
+	role_file = root_dir + "/../data/roles_" + category + ".txt"
+	with open(role_file) as f:
+		for line in f.readlines():
+			if line[0] == "#" or line.strip() == "":
+				#skip comments and empty lines
+				continue
+
+			tokens = line.strip().split("|")
+			role = tokens[0]
+			if site_size == "large":
+				val = tokens[1]
+			elif site_size == "medium":
+				val = tokens[2]
+			else:
+				val  = tokens[3]
+			roles[role] = float(val)
+
+	#sort roles by desc frequency
+	return dict(sorted(roles.items(), key=lambda item: -item[1]))
+
+
 def assign_roles(people: List[Dict[str, Any]], category: str, site_size: str) -> None:
 	""" only 0 or 1 role per person """
 
@@ -73,31 +97,5 @@ def assign_roles(people: List[Dict[str, Any]], category: str, site_size: str) ->
 		people[i]["role"] = chosen_roles[i]
 
 
-def load_roles(category: str, site_size: str) -> Dict[str, float]:
-	roles: Dict[str, float] = {}
-	
-	role_file = root_dir + "/../data/roles_" + category + ".txt"
-	with open(role_file) as f:
-		for line in f.readlines():
-			if line[0] == "#" or line.strip() == "":
-				#skip comments and empty lines
-				continue
-
-			tokens = line.strip().split("|")
-			role = tokens[0]
-			if site_size == "large":
-				val = tokens[1]
-			elif site_size == "medium":
-				val = tokens[2]
-			else:
-				val  = tokens[3]
-			roles[role] = float(val)
-
-	#sort roles by desc frequency
-	return dict(sorted(roles.items(), key=lambda item: -item[1]))
-
-
-
 load_all_names()
-
 

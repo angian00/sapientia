@@ -23,7 +23,7 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 	- castello
 	- villaggio
 	- fattoria
-- generazione nomi luoghi e persone
+
 - generazione ground truth
 	- filosofia naturale
 	- teologia
@@ -33,15 +33,17 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 	- storie dei luoghi
 	- penitenziario (elenco peccati e penitenze)
 	- inni sacri
+
 - generazione e collocazione libri
+
 - generazione e collocazione altri items:
 	- equipaggiamento
 	- monumenti
 	- reliquie
 	- manufatti
 	- ingredienti
+	
 - generazione e collocazione NPC
-- movimento
 - gestione quest
 - visualizz journal
 - interaz NPC:

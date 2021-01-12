@@ -1,0 +1,142 @@
+# prefix|name|attribute|frequency|sex 
+sant'|Abbondio||1|m
+sant'|Agapeto||1|m
+sant'|Agata||5|f
+sant'|Agnese||1|f
+sant'|Agostino||10|m
+sant'|Albano||1|m
+sant'|Alberto|Magno|5|m
+sant'|Ambrogio||8|m
+sant'|Anacleto||1|m
+sant'|Anastasia||1|f
+sant'|Andrea||10|m
+sant'|Angilberto||1|m
+sant'|Anna||10|f
+sant'|Antonio|abate|20|m
+sant'|Apollinare||1|m
+sant'|Apollonia||1|f
+santa |Barbara||5|f
+san |Barnaba||1|m
+san |Bartolomeo||5|m
+san |Basilio||1|m
+san |Benedetto||30|m
+san |Bernardo|di Clairvaux|10|m
+san |Boezio||1|m
+santa |Caterina|di Alessandria|1|f
+santa |Cecilia||5|f
+san |Celso||1|m
+santa |Chiara||10|f
+san |Cipriano||1|m
+san |Cirillo||1|m
+santa |Clotilde||1|f
+san |Colombano||1|m
+san |Cosma||1|m
+san |Costanzo||1|m
+san |Cristoforo||10|f
+santa |Cunegonda||1|f
+san |Damiano||1|m
+san |Dionigi|Aeropagita|1|m
+san |Dionigi|di Alessandria|1|m
+san |Donato||1|m
+sant'|Ermete||1|m
+sant'|Eufemia||1|f
+sant'|Eugenio||1|m
+sant'|Euprepio||1|m
+sant'|Eustachio||1|m
+san |Fabio||1|m
+san |Faustino||1|m
+san |Fausto||1|m
+san |Felice||1|m
+san |Feliciano||1|m
+santa |Felicita||1|f
+san |Filippo||1|m
+santa |Filomena||1|f
+san |Filone||1|m
+santa |Firmina||1|f
+san |Firmino||1|m
+san |Fortunato||1|m
+san |Francesco||10|m
+san |Fruttuoso||1|m
+san |Gaudenzio||1|m
+san |Gelasio||1|m
+san |Gerolamo||5|m
+san |Giacomo|il Giusto|1|m
+san |Giacomo|maggiore|1|m
+san |Giacomo|minore|1|m
+san |Gioacchino||1|m
+san |Giovanni|Evangelista|30|m
+san |Giovanni|Battista|30|m
+san |Giovanni|Crisostomo|1|m
+san |Giuda|apostolo|1|m
+san |Giuda|Siriaco|1|m
+san |Giuliano|di Antiochia|1|m
+san |Giulio||1|m
+san |Giuseppe||5|m
+san |Giustino||1|m
+san |Goffredo||1|m
+san |Gorgonio||1|m
+sant'|Ignazio|di Antiochia|1|m
+sant'|Ildefonso||1|m
+sant'|Ippolito||1|m
+sant'|Irene||1|m
+sant'|Ireneo||1|m
+sant'|Isacco||1|m
+sant'|Isidora||1|f
+santa |Laurenzia||1|f
+san |Leandro||1|m
+san |Longino||1|m
+san |Luca||5|m
+santa |Lucia||1|f
+san |Magno||1|m
+san |Marcellino||1|m
+san |Marciano||1|m
+santa |Margherita||3|f
+santa |Maria Maddalena||1|f
+santa |Marta||1|f
+san |Matteo||3|m
+san |Mattia||1|m
+san |Maurizio||3|m
+san |Mauro||1|m
+santa |Monica||1|f
+san |Nicodemo||1|m
+san |Nicola||5|m
+san |Nicomede||1|m
+santa |Onorina||1|f
+santa |Orsola||1|f
+san |Pancrazio||1|m
+san |Pantaleone||1|m
+san |Paolo|apostolo|10|m
+san |Patrizio||1|m
+santa |Pelagia|di Tarso|1|f
+santa |Petronilla||1|f
+san |Pietro||30|m
+san |Policarpo||1|m
+santa |Prisca||1|f
+san |Prosdocimo||1|m
+san |Remigio||1|m
+san |Romano|di Cesarea|1|m
+san |Romualdo||1|m
+santa |Rufina||1|f
+santa |Sabina||1|f
+san |Satiro||1|m
+santa |Scolastica||1|f
+san |Sebastiano||5|m
+san |Simeone||1|m
+san |Simone|lo Zelota|1|m
+san |Simplicio||1|m
+santo |Stefano||5|m
+san |Tarcisio||1|m
+santa |Tecla||1|f
+santa |Teodora||1|f
+san |Teodoro||1|m
+san |Teofilo|di Antiochia|1|m
+san |Timoteo||1|m
+san |Tommaso|apostolo|1|m
+san |Tommaso|d'Aquino|5|m
+san |Valentino||1|m
+san |Venanzio||1|m
+san |Vito||1|m
+san |Vigilio||1|m
+santa |Vittoria||1|f
+san |Zenone||1|m
+san |Zosimo||1|m
