@@ -18,10 +18,10 @@ Nella biblioteca accede ad alcuni comuni testi base: la Philosophia Naturalis di
 	? strade
 
 - generazione geografia secondo livello (luoghi):
-	- monastero
+	v monastero
 	- santuario
 	- castello
-	- villaggio
+	v villaggio
 	- fattoria
 
 - generazione ground truth

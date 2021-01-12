@@ -6,6 +6,7 @@ from components.equipment import Equipment
 from components import consumable, equippable, combinable
 
 from entity import Entity, Actor, Item, Site
+import color
 
 
 #----------------------------------------------------
@@ -52,10 +53,10 @@ troll = Actor(
 )
 
 #----------------------------------------------------
-monk = Actor(
-	char="m",
-	color=(160, 82, 45),
-	name="frate",
+friendly_npc = Actor(
+	char="p",
+	color=color.white,
+	name="<no name>",
 	ai_cls=FriendlyAI,
 	equipment=Equipment(),
 	fighter=Fighter(hp=10, base_defense=1, base_power=1),
@@ -131,5 +132,6 @@ herb = Item(
 
 #----------------------------------------------------
 
-monastery = Site(char="*", name="monastery")
+monastery = Site(char="?", name="monastery")
+village = Site(char="\u25CB", name="village")
 

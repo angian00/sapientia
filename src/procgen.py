@@ -24,9 +24,14 @@ if TYPE_CHECKING:
 	from entity import Entity
 
 
-max_n_buildings = 8
+#max_n_buildings = 8
+#building_min_size = 4
+#building_max_size = 8
+
+max_n_buildings = 20
 building_min_size = 4
-building_max_size = 8
+building_max_size = 12
+
 
 max_n_sites = 10
 min_site_distance = 5
@@ -68,87 +73,6 @@ class Rectangle:
 
 
 
-def place_sites(target_map: GameMap, n_sites: int) -> None:
-	i = 0
-	while i < n_sites:
-		#leave a 1 tile padding around the borders
-		x = random.randint(1, target_map.width - 2)
-		y = random.randint(1, target_map.height - 2)
-
-		#if not any(entity.x == x and entity.y == y for entity in target_map.entities):
-
-		#guarantee minimal distance between sites
-		tile_is_ok = True
-		for entity in target_map.entities:
-			if (entity.x == x and entity.y == y) or \
-				(isinstance(entity, Site) and \
-				abs(entity.x - x) < min_site_distance and \
-				abs(entity.y - y) < min_site_distance ):
-
-				tile_is_ok = False
-				break
-		
-		if not tile_is_ok:
-			continue
-
-		site_data = generate_monastery_data(target_map.tiles[x, y])
-		new_site = entity_factories.monastery.spawn(target_map, x, y)	
-		new_site.name = site_data.name
-
-		if site_data.size == "small":
-			new_site.char = "+"
-		elif site_data.size == "medium":
-			new_site.char = "\u00B1"
-		else:
-			new_site.char = "\u263C"
-
-		new_site.site_data = site_data
-
-		i += 1
-
-
-def place_herbs(target_map: GameMap, n_herbs: int) -> None:
-	i = 0
-	while i < n_herbs:
-		x = random.randint(0, target_map.width - 1)
-		y = random.randint(0, target_map.height - 1)
-
-		if any(entity.x == x and entity.y == y for entity in target_map.entities):
-			continue
-
-		new_herb = entity_factories.herb.spawn(target_map, x, y)	
-		new_herb.name = ingredients.gen_herb()
-
-		i += 1
-
-
-def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
-	i = 0
-	for npc in npcs:
-		x = random.randint(0, target_map.width - 1)
-		y = random.randint(0, target_map.height - 1)
-
-		if  (not target_map.tiles["walkable"][x, y]) or \
-			any(entity.x == x and entity.y == y for entity in target_map.entities):
-			continue
-
-		new_monk = entity_factories.monk.spawn(target_map, x, y)
-
-		new_monk.name = npc["name"]
-
-		if npc["order"] == "franciscan":
-			new_monk.color = color.brown
-		elif npc["order"] == "dominican":
-			new_monk.color = color.black
-		else:
-			new_monk.color = color.white
-
-		if "role" in npc:
-			new_monk.role = npc["role"]
-
-		i += 1
-
-
 def generate_wilderness_map(map_width: int, map_height: int, engine: Engine) -> GameMap:
 	"""Generate a new outside map"""
 
@@ -188,8 +112,12 @@ def generate_wilderness_map(map_width: int, map_height: int, engine: Engine) -> 
 
 			new_map.tiles[x, y] = tile_types.terrain_tiles[i-1]
 
-	n_sites = random.randint(int(max_n_sites/2), max_n_sites)
-	place_sites(new_map, n_sites)
+	site_config: Dict[str, int] = { "monastery": 10, "village": 10}
+	
+	for site_type in site_config:
+		max_n_sites = site_config[site_type]
+		n_sites = random.randint(int(max_n_sites/2), max_n_sites)
+		place_sites(new_map, site_type, n_sites)
 
 	n_herbs = random.randint(int(max_n_herbs/2), max_n_herbs)
 	place_herbs(new_map, n_herbs)
@@ -213,8 +141,8 @@ def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Op
 		b_width = random.randint(building_min_size, building_max_size)
 		b_height = random.randint(building_min_size, building_max_size)
 
-		x = random.randint(0, new_map.width - b_width - 1)
-		y = random.randint(0, new_map.height - b_height - 1)
+		x = random.randint(1, new_map.width - b_width - 2)
+		y = random.randint(1, new_map.height - b_height - 2)
 
 		new_b = Rectangle(x, y, b_width, b_height)
 
@@ -233,6 +161,101 @@ def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Op
 		place_npcs(new_map, npcs)
 
 	return new_map
+
+
+def place_sites(target_map: GameMap, site_type: str, n_sites: int) -> None:
+	i = 0
+	while i < n_sites:
+		#leave a 1 tile padding around the borders
+		x = random.randint(1, target_map.width - 2)
+		y = random.randint(1, target_map.height - 2)
+
+		#if not any(entity.x == x and entity.y == y for entity in target_map.entities):
+
+		#guarantee minimal distance between sites
+		tile_is_ok = True
+		for entity in target_map.entities:
+			if (entity.x == x and entity.y == y) or \
+				(isinstance(entity, Site) and \
+				abs(entity.x - x) < min_site_distance and \
+				abs(entity.y - y) < min_site_distance ):
+
+				tile_is_ok = False
+				break
+		
+		if not tile_is_ok:
+			continue
+
+		if site_type == "monastery":
+			new_site = entity_factories.monastery.spawn(target_map, x, y)	
+			site_data = generate_monastery_data(target_map.tiles[x, y])
+			new_site.name = site_data.name
+
+			if site_data.size == "small":
+				new_site.char = "+"
+			elif site_data.size == "medium":
+				new_site.char = "\u00B1"
+			else:
+				new_site.char = "\u263C"
+
+			new_site.site_data = site_data
+
+		else: #village
+			new_site = entity_factories.village.spawn(target_map, x, y)	
+			site_data = generate_village_data(target_map.tiles[x, y])
+			new_site.name = site_data.name
+			new_site.site_data = site_data
+
+		i += 1
+
+
+def place_herbs(target_map: GameMap, n_herbs: int) -> None:
+	i = 0
+	while i < n_herbs:
+		x = random.randint(0, target_map.width - 1)
+		y = random.randint(0, target_map.height - 1)
+
+		if any(entity.x == x and entity.y == y for entity in target_map.entities):
+			continue
+
+		new_herb = entity_factories.herb.spawn(target_map, x, y)	
+		new_herb.name = ingredients.gen_herb()
+
+		i += 1
+
+
+def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
+	i = 0
+	for npc_datum in npcs:
+		x = random.randint(0, target_map.width - 1)
+		y = random.randint(0, target_map.height - 1)
+
+		if  (not target_map.tiles["walkable"][x, y]) or \
+			any(entity.x == x and entity.y == y for entity in target_map.entities):
+			continue
+
+		new_npc = entity_factories.friendly_npc.spawn(target_map, x, y)
+		new_npc.name = npc_datum["name"]
+
+		if npc_datum["class"] == "monk":
+			new_npc.char = "m"
+			if npc_datum["order"] == "franciscan":
+				new_npc.color = color.brown
+			elif npc_datum["order"] == "dominican":
+				new_npc.color = color.black
+			else:
+				new_npc.color = color.white
+
+		else: #peasant
+			new_npc.char = "p"
+			new_npc.color = (40, 90, 40)
+
+
+		if "role" in npc_datum:
+			new_npc.role = npc_datum["role"]
+
+		i += 1
+
 
 
 def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
@@ -261,7 +284,7 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 
 	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
 	for i in range(n_staff):
-		new_npc = { "name": name_gen.gen_name("people"), "order": s_order }
+		new_npc = { "name": name_gen.gen_name("people"), "class": "monk", "order": s_order }
 		new_site_data.staff.append(new_npc)
 
 
@@ -272,6 +295,44 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 		else:
 			new_npc["name"] = "frate " + new_npc["name"]
 
+
+	return new_site_data
+
+
+
+def generate_village_data(tile_type: np.ndarray) -> SiteData:
+	s_name = "village of " + name_gen.gen_name("sites")
+	
+	if tile_type == tile_types.terrain_mountains:
+		s_size = "small"
+	elif tile_type == tile_types.terrain_hills_1 or tile_type == tile_types.terrain_hills_2:
+		s_size = "medium"
+	else:
+		s_size = "large"
+
+	new_site_data = SiteData(s_name, s_size, "-")
+
+	if s_size == "small":
+		max_n_staff = 8
+
+	elif s_size == "medium":
+		max_n_staff = 16
+	
+	else:
+		max_n_staff = 32
+
+	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
+	for i in range(n_staff):
+		new_npc = { "name": name_gen.gen_name("people"), "class": "peasant" }
+		new_site_data.staff.append(new_npc)
+
+
+	# assign nicknames
+	for new_npc in new_site_data.staff:
+		if random.random() < 0.5:
+			nickname = name_gen.gen_name("nicknames")
+			new_npc["name"] = new_npc["name"] + " \"" + \
+				name_gen.get_the(nickname) + nickname.capitalize() + "\""
 
 
 	return new_site_data

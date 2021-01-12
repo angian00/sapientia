@@ -4,10 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- villages
 - herbs in wilderness map
 - basic ingredient combination
 - church name generator
-- monk orders with different colors
+- peasant nickname generator
+- different colors for monk orders
 
 
 ## [0.0.3] - 2021-01-10

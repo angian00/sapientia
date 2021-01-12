@@ -7,7 +7,7 @@ import os.path
 
 
 
-categories: Sequence[str] = ( "people", "sites", "sites_international" )
+categories: Sequence[str] = ( "people", "nicknames", "sites", "sites_international" )
 name_data: Dict[str, Tuple[Sequence[str], Sequence[int]]] = {}
 
 
@@ -95,6 +95,26 @@ def assign_roles(people: List[Dict[str, Any]], category: str, site_size: str) ->
 
 	for i in chosen_roles:
 		people[i]["role"] = chosen_roles[i]
+
+
+def get_the(str, gender="m", plural=False):
+	if plural:
+		#TODO: do plural
+		return "TODO"
+
+	else:
+		if str[0] in "aeiou":
+			return "l'"
+
+		if gender == "f":
+			return "la "
+
+		if str[0] in "xyz" or str[:2] == "gn" or str[:2] == "ps" or str[:2] == "pn" or \
+			(str[0] == "s" and str[1] not in "aeiou"):
+			return "lo "
+
+		return "il "
+			
 
 
 load_all_names()

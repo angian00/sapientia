@@ -1,5 +1,6 @@
 ## TODO
 
+- make small moasteries priories
 
 - configuration file
 	- language for plant/common names
@@ -22,6 +23,12 @@
 ## Plan of Next Releases
 
 - v0.0.4:
+	- villages; peasant npcs
+	- use site/npc reputation for 
+		- relic generation
+		- monastery size
+		- roles
+	- generate relics
 	- trade with monks
 
 - v0.0.5:
