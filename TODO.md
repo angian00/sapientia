@@ -1,20 +1,25 @@
 ## TODO
 
-- make small moasteries priories
+- make small monasteries priories
+
+- experiments:
+	- combat
+	
 
 - configuration file
 	- language for plant/common names
 
 + switch graphic library:
-	BearLibTerminal, SDL, ...
-
-+ name internationalization
+	BearLibTerminal
+	SDL
+	rot.js
+	
 
 - mark names as used in name_gen
 
 
 ## Bugs
-? monks names generation isn't too random
+? names generation isn't too random
 + radius area effect
 + messages for equipment for monsters
 + configurable international key mapping
@@ -23,7 +28,6 @@
 ## Plan of Next Releases
 
 - v0.0.4:
-	- villages; peasant npcs
 	- use site/npc reputation for 
 		- relic generation
 		- monastery size
