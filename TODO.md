@@ -1,19 +1,13 @@
 ## TODO
 
-- make small monasteries priories
+- transform color strings in colors after terminal.open
+- make containers
+- alias type color
 
-- experiments:
-	- combat
-	
+- make small monasteries priories
 
 - configuration file
 	- language for plant/common names
-
-+ switch graphic library:
-	BearLibTerminal
-	SDL
-	rot.js
-
 
 - mark names as used in name_gen
 
@@ -28,11 +22,10 @@
 ## Plan of Next Releases
 
 - experiments:
-	- rot.js
-	- layout journal
 	- base quest: retrieving Saint Thomas' Finger
+	- combat
 
-- v0.0.4:
+- v0.0.5:
 	- use site/npc reputation for 
 		- relic generation
 		- monastery size
@@ -40,7 +33,7 @@
 	- generate relics
 	- trade with monks
 
-- v0.0.5:
+- v0.0.6:
 	- generate books, relics, heresies
 	- properly generate monastery level
 

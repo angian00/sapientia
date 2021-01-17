@@ -3,15 +3,15 @@ from typing import Tuple, List
 
 import numpy as np  # type: ignore
 
-import color
+import ui.color
 
 
 # Tile graphics structured type compatible with Console.tiles_rgb
 graphic_dt = np.dtype(
 	[
 		("ch", np.int32),  # Unicode codepoint
-		("fg", "3B"),  # 3 unsigned bytes, for RGB colors
-		("bg", "3B"),
+		("fg", "U"),
+		("bg", "U"),
 	]
 )
 
@@ -30,58 +30,59 @@ def new_tile(
 	*,  # Enforce the use of keywords, so that parameter order doesn't matter
 	walkable: int,
 	transparent: int,
-	dark: Tuple[int, Tuple[int, int, int], Tuple[int, int, int]],
-	light: Tuple[int, Tuple[int, int, int], Tuple[int, int, int]],
+	dark: Tuple[int, str, str],
+	light: Tuple[int, str, str],
 ) -> np.ndarray:
 	"""Helper function for defining individual tile types """
 	return np.array((walkable, transparent, dark, light), dtype=tile_dt)
 
 
 # SHROUD represents unexplored, unseen tiles
-SHROUD = np.array((ord("\u2591"), (144, 144, 144), (0, 0, 0)), dtype=graphic_dt)
+SHROUD = np.array((ord("\u2591"), "#909090", ui.color.black), dtype=graphic_dt)
 
 floor = new_tile(
 	walkable=True,
 	transparent=True,
-	dark =(ord("."), (0, 0, 0), color.floor_dark),
-	light=(ord("."), (0, 0, 0), color.floor_light),
+	dark =(ord("."), ui.color.black, ui.color.floor_dark),
+	light=(ord("."), ui.color.black, ui.color.floor_light),
 )
 
 wall = new_tile(
 	walkable=False,
 	transparent=False,
-	dark =(ord(" "), color.wall_dark, color.wall_dark),
-	light=(ord(" "), color.wall_light, color.wall_light),
+	dark =(ord(" "), ui.color.wall_dark, ui.color.wall_dark),
+	light=(ord(" "), ui.color.wall_light, ui.color.wall_light),
 )
 
 down_stairs = new_tile(
    walkable=True,
    transparent=True,
-   dark =(ord(">"), (0, 0, 100), (50, 50, 150)),
-   light=(ord(">"), (255, 255, 255), (200, 180, 50)),
+   dark =(ord(">"), "#000064", "#323296"),
+   light=(ord(">"), ui.color.white, "#c8b432"),
 )
 
 
 
 
-terrain_info: List[Tuple[str, Tuple[int, int, int]]] = [
-	(" ", color.terrain_plains_1),
-	(" ", color.terrain_plains_2),
-	("\u2229", color.terrain_hills_1),
-	("\u2229", color.terrain_hills_2),
-	("\u25B2", color.terrain_mountains),
+terrain_info: List[Tuple[str, str]] = [
+	(" ", ui.color.terrain_plains_1),
+	(" ", ui.color.terrain_plains_2),
+	("\u2229", ui.color.terrain_hills_1),
+	("\u2229", ui.color.terrain_hills_2),
+	("\u25B2", ui.color.terrain_mountains),
 ]
 
 terrain_tiles: List[np.ndarray] = []
 for t in terrain_info:
 	t_char = t[0]
 	t_color = t[1]
-	t_color_dark = color.darken(t_color)
+	t_color_dark = "dark " + t_color
+	t_color_darker = "darker " + t_color
 
 	terrain_tiles.append(new_tile(
 		walkable=True,
 		transparent=True,
-		dark=(ord(t_char), color.darken(t_color_dark), t_color_dark),
+		dark=(ord(t_char), t_color_darker, t_color_dark),
 		light=(ord(t_char), t_color_dark, t_color),
 	)
 )

@@ -57,7 +57,7 @@ def print_frame(w, h, x=0, y=0, title=None):
 	terminal.printf(x+w-1, y+h-1, "\u2518")
 
 	if title:
-		terminal.printf(x+2, y, s=f" {title} ");
+		terminal.printf(x+2, y, s=f" {title} ")
 
 
 def print_map():

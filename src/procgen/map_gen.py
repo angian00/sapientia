@@ -1,32 +1,25 @@
 from __future__ import annotations
 
-import random
 from typing import Iterator, List, Tuple, Dict, Optional, TYPE_CHECKING
+if TYPE_CHECKING:
+	from game.engine import Engine
+	from game.entity import Entity
 
+
+import random
 import numpy as np # type: ignore
-
 import tcod
 
-import entity_factories
-from game_map import GameMap
-from entity import Site
+import game.entity_factories
+from game.map import GameMap
+from game.entity import Site
+import game.tile_types
+import game.ingredients
+from game.metadata import SiteData
+import ui.color
+from procgen.name_gen import gen_name, get_the, assign_roles
+from procgen.church_gen import gen_church_name
 
-import color
-import tile_types
-import name_gen
-import church_gen
-import ingredients
-from metadata import SiteData
-
-
-if TYPE_CHECKING:
-	from engine import Engine
-	from entity import Entity
-
-
-#max_n_buildings = 8
-#building_min_size = 4
-#building_max_size = 8
 
 max_n_buildings = 20
 building_min_size = 4
@@ -110,7 +103,7 @@ def generate_wilderness_map(map_width: int, map_height: int, engine: Engine) -> 
 				if samples[x, y] < terrain_levels[i]:
 					break
 
-			new_map.tiles[x, y] = tile_types.terrain_tiles[i-1]
+			new_map.tiles[x, y] = game.tile_types.terrain_tiles[i-1]
 
 	site_config: Dict[str, int] = { "monastery": 10, "village": 10}
 	
@@ -150,7 +143,7 @@ def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Op
 			# This building intersects, so go to the next attempt
 			continue
 
-		new_map.tiles[new_b.area] = tile_types.wall
+		new_map.tiles[new_b.area] = game.tile_types.wall
 
 		buildings.append(new_b)
 
@@ -187,7 +180,7 @@ def place_sites(target_map: GameMap, site_type: str, n_sites: int) -> None:
 			continue
 
 		if site_type == "monastery":
-			new_site = entity_factories.monastery.spawn(target_map, x, y)	
+			new_site = game.entity_factories.monastery.spawn(target_map, x, y)	
 			site_data = generate_monastery_data(target_map.tiles[x, y])
 			new_site.name = site_data.name
 
@@ -201,7 +194,7 @@ def place_sites(target_map: GameMap, site_type: str, n_sites: int) -> None:
 			new_site.site_data = site_data
 
 		else: #village
-			new_site = entity_factories.village.spawn(target_map, x, y)	
+			new_site = game.entity_factories.village.spawn(target_map, x, y)	
 			site_data = generate_village_data(target_map.tiles[x, y])
 			new_site.name = site_data.name
 			new_site.site_data = site_data
@@ -218,8 +211,8 @@ def place_herbs(target_map: GameMap, n_herbs: int) -> None:
 		if any(entity.x == x and entity.y == y for entity in target_map.entities):
 			continue
 
-		new_herb = entity_factories.herb.spawn(target_map, x, y)	
-		new_herb.name = ingredients.gen_herb()
+		new_herb = game.entity_factories.herb.spawn(target_map, x, y)	
+		new_herb.name = game.ingredients.gen_herb()
 
 		i += 1
 
@@ -234,21 +227,21 @@ def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
 			any(entity.x == x and entity.y == y for entity in target_map.entities):
 			continue
 
-		new_npc = entity_factories.friendly_npc.spawn(target_map, x, y)
+		new_npc = game.entity_factories.friendly_npc.spawn(target_map, x, y)
 		new_npc.name = npc_datum["name"]
 
 		if npc_datum["class"] == "monk":
 			new_npc.char = "m"
 			if npc_datum["order"] == "franciscan":
-				new_npc.color = color.brown
+				new_npc.color = ui.color.brown
 			elif npc_datum["order"] == "dominican":
-				new_npc.color = color.black
+				new_npc.color = ui.color.black
 			else:
-				new_npc.color = color.white
+				new_npc.color = ui.color.white
 
 		else: #peasant
 			new_npc.char = "p"
-			new_npc.color = (40, 90, 40)
+			new_npc.color = "#285a28"
 
 
 		if "role" in npc_datum:
@@ -259,14 +252,13 @@ def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
 
 
 def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
-	#s_name = "monastery of " + name_gen.gen_name("sites")
-	s_name = "monastery of " + church_gen.gen_church_name()
+	s_name = "monastery of " + gen_church_name()
 	
 	s_order = random.choice(["dominican", "franciscan", "cistercian"])
 
-	if tile_type == tile_types.terrain_mountains:
+	if tile_type == game.tile_types.terrain_mountains:
 		s_size = "small"
-	elif tile_type == tile_types.terrain_hills_1 or tile_type == tile_types.terrain_hills_2:
+	elif tile_type == game.tile_types.terrain_hills_1 or tile_type == game.tile_types.terrain_hills_2:
 		s_size = "medium"
 	else:
 		s_size = "large"
@@ -284,14 +276,14 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 
 	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
 	for i in range(n_staff):
-		new_npc = { "name": name_gen.gen_name("people"), "class": "monk", "order": s_order }
+		new_npc = { "name": gen_name("people"), "class": "monk", "order": s_order }
 		new_site_data.staff.append(new_npc)
 
 
-	name_gen.assign_roles(new_site_data.staff, "monastery", s_size)
+	assign_roles(new_site_data.staff, "monastery", s_size)
 	for new_npc in new_site_data.staff:
 		if "role" in new_npc and (new_npc["role"] == "abate" or new_npc["role"] == "priore"):
-			new_npc["name"] = "padre " + new_npc["name"] + " da " + name_gen.gen_name("sites_international")
+			new_npc["name"] = "padre " + new_npc["name"] + " da " + gen_name("sites_international")
 		else:
 			new_npc["name"] = "frate " + new_npc["name"]
 
@@ -301,11 +293,11 @@ def generate_monastery_data(tile_type: np.ndarray) -> SiteData:
 
 
 def generate_village_data(tile_type: np.ndarray) -> SiteData:
-	s_name = "village of " + name_gen.gen_name("sites")
+	s_name = "village of " + gen_name("sites")
 	
-	if tile_type == tile_types.terrain_mountains:
+	if tile_type == game.tile_types.terrain_mountains:
 		s_size = "small"
-	elif tile_type == tile_types.terrain_hills_1 or tile_type == tile_types.terrain_hills_2:
+	elif tile_type == game.tile_types.terrain_hills_1 or tile_type == game.tile_types.terrain_hills_2:
 		s_size = "medium"
 	else:
 		s_size = "large"
@@ -323,16 +315,16 @@ def generate_village_data(tile_type: np.ndarray) -> SiteData:
 
 	n_staff = random.randint(int(max_n_staff/2), max_n_staff)
 	for i in range(n_staff):
-		new_npc = { "name": name_gen.gen_name("people"), "class": "peasant" }
+		new_npc = { "name": gen_name("people"), "class": "peasant" }
 		new_site_data.staff.append(new_npc)
 
 
 	# assign nicknames
 	for new_npc in new_site_data.staff:
 		if random.random() < 0.5:
-			nickname = name_gen.gen_name("nicknames")
+			nickname = gen_name("nicknames")
 			new_npc["name"] = new_npc["name"] + " \"" + \
-				name_gen.get_the(nickname) + nickname.capitalize() + "\""
+				get_the(nickname) + nickname.capitalize() + "\""
 
 
 	return new_site_data

@@ -2,16 +2,16 @@ from __future__ import annotations
 
 from typing import List, Tuple, Optional, TYPE_CHECKING
 
+if TYPE_CHECKING:
+	from game.entity import Actor
+
 import numpy as np  # type: ignore
 import random
 import tcod
 
-from actions import Action, BumpAction, MeleeAction, MovementAction, WaitAction
+from game.actions import *
 
 
-
-if TYPE_CHECKING:
-	from entity import Actor
 
 
 class BaseAI(Action):

@@ -5,10 +5,8 @@ from typing import Sequence, Dict, Tuple, List, Any
 import random
 import os.path
 
-import name_gen
-
-
-root_dir: str = os.path.dirname(os.path.realpath(__file__))
+from procgen.name_gen import gen_name
+import util
 
 
 church_schemes = [
@@ -88,7 +86,7 @@ def load_all_church() -> None:
 
 
 def load_saint_data() -> None:
-	saint_file = root_dir + "/../data/saints.txt"
+	saint_file = util.get_data_dir() + "/saints.txt"
 	with open(saint_file) as f:
 		for line in f.readlines():
 			if line[0] == "#" or line.strip() == "":
@@ -108,7 +106,7 @@ def load_saint_data() -> None:
 def load_name_freqs(filename: str) -> List[Tuple[str, float]]:
 	res: List[Tuple[str, float]] = []
 
-	full_path = root_dir + "/../data/" + filename + ".txt"
+	full_path = util.get_data_dir() + "/" + filename + ".txt"
 
 	with open(full_path) as f:
 		for line in f.readlines():
@@ -129,9 +127,9 @@ def decorate(name: str) -> str:
 	dec_scheme = random.choices(dec_scheme_names, dec_scheme_freqs)[0]
 	
 	if dec_scheme == "in":
-		res += " in " + name_gen.gen_name("sites")
+		res += " in " + gen_name("sites")
 	elif dec_scheme == "sopra":
-		res += " sopra " + name_gen.gen_name("sites")
+		res += " sopra " + gen_name("sites")
 	elif dec_scheme == "mura":
 		res += " fuori le mura"
 

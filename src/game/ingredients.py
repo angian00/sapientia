@@ -6,8 +6,8 @@ import os.path
 import json
 import random
 
+import util
 
-root_dir: str = os.path.dirname(os.path.realpath(__file__))
 
 herb_data: Dict[str, Dict[str, Any]] = {}
 herb_names: Sequence[str]
@@ -16,7 +16,7 @@ combinations: Dict[str, Dict[str, str]] = {}
 
 
 def load_herbs() -> None:
-	herb_file = root_dir + "/../data/herbs.json"
+	herb_file = util.get_data_dir() + "/herbs.json"
 	with open(herb_file) as f:
 		json_data = json.load(f)
 
@@ -25,7 +25,7 @@ def load_herbs() -> None:
 
 
 def load_combinations() -> None:
-	comb_file = root_dir + "/../data/ingredient_combinations.txt"
+	comb_file = util.get_data_dir() + "/ingredient_combinations.txt"
 	with open(comb_file) as f:
 		for line in f.readlines():
 			if line[0] == "#" or line.strip() == "":

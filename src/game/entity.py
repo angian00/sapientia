@@ -1,15 +1,7 @@
 from __future__ import annotations
 
-import math
-import copy
 
 from typing import Optional, Tuple, Union, Type, TypeVar, TYPE_CHECKING
-
-from render_order import RenderOrder
-import color
-import metadata
-
-
 if TYPE_CHECKING:
 	from components.ai import BaseAI
 	from components.consumable import Consumable
@@ -19,7 +11,16 @@ if TYPE_CHECKING:
 	from components.inventory import Inventory
 	from components.level import Level
 	from components.equipment import Equipment
-	from game_map import GameMap
+
+
+import math
+import copy
+
+from game.map import GameMap
+from game.render_order import RenderOrder
+import game.metadata
+import ui.color
+
 
 T = TypeVar("T", bound="Entity")
 
@@ -36,7 +37,7 @@ class Entity:
 		x: int = 0,
 		y: int = 0,
 		char: str = "?",
-		color: Tuple[int, int, int] = (255, 255, 255),
+		color: str = "white",
 		name: str = "<Unnamed>",
 		blocks_movement: bool = False,
 		render_order: RenderOrder = RenderOrder.CORPSE,
@@ -107,7 +108,7 @@ class Actor(Entity):
 		x: int = 0,
 		y: int = 0,
 		char: str = "?",
-		color: Tuple[int, int, int] = (255, 255, 255),
+		color: str = "white",
 		name: str = "<Unnamed>",
 		ai_cls: Type[BaseAI],
 		equipment: Equipment,
@@ -164,7 +165,7 @@ class Item(Entity):
 		x: int = 0,
 		y: int = 0,
 		char: str = "?",
-		color: Tuple[int, int, int] = (255, 255, 255),
+		color: str = "white",
 		name: str = "<Unnamed>",
 		consumable: Optional[Consumable] = None,
 		equippable: Optional[Equippable] = None,
@@ -200,8 +201,8 @@ class Site(Entity):
 		x: int = 0,
 		y: int = 0,
 		char: str = "?",
-		color: Tuple[int, int, int] = color.site_light,
-		dark_color: Tuple[int, int, int] = color.site_dark,
+		color: str = ui.color.site_light,
+		dark_color: str = ui.color.site_dark,
 		name: str = "<Unnamed>",
 		size: str = "small",
 	):
@@ -217,5 +218,5 @@ class Site(Entity):
 
 		self.size = size
 		self.dark_color = dark_color
-		self.site_data: Optional[metadata.SiteData] = None 
+		self.site_data: Optional[game.metadata.SiteData] = None 
 

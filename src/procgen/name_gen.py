@@ -5,18 +5,16 @@ from typing import Sequence, Dict, Tuple, List, Any
 import random
 import os.path
 
+import util
 
 
 categories: Sequence[str] = ( "people", "nicknames", "sites", "sites_international" )
 name_data: Dict[str, Tuple[Sequence[str], Sequence[int]]] = {}
 
 
-root_dir: str = os.path.dirname(os.path.realpath(__file__))
-
-
 def load_all_names() -> None:
 	for c in categories:
-		name_data[c] = load_names(root_dir + "/../data/names_" + c + ".txt")
+		name_data[c] = load_names(util.get_data_dir() + "/names_" + c + ".txt")
 
 
 def load_names(filename: str) -> Tuple[Sequence[str], Sequence[int]]:
@@ -50,7 +48,7 @@ def gen_name(category: str) -> str:
 def load_roles(category: str, site_size: str) -> Dict[str, float]:
 	roles: Dict[str, float] = {}
 	
-	role_file = root_dir + "/../data/roles_" + category + ".txt"
+	role_file = util.get_data_dir() + "/roles_" + category + ".txt"
 	with open(role_file) as f:
 		for line in f.readlines():
 			if line[0] == "#" or line.strip() == "":

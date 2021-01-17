@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 from typing import Optional, Tuple, TYPE_CHECKING
-import color
+import ui.color
 import exceptions
 
 
 if TYPE_CHECKING:
-	from engine import Engine
-	from entity import Actor, Entity, Item, Site
+	from game.engine import Engine
+	from game.entity import Actor, Entity, Item, Site
 
 
 
@@ -189,9 +189,9 @@ class MeleeAction(ActionWithDirection):
 		damage = self.entity.fighter.power - target.fighter.defense
 		attack_desc = f"{self.entity.name.capitalize()} attacks {target.name}"
 		if self.entity is self.engine.player:
-			attack_color = color.player_atk
+			attack_color = ui.color.player_atk
 		else:
-			attack_color = color.enemy_atk  
+			attack_color = ui.color.enemy_atk  
 
 
 		if damage > 0:
