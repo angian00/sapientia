@@ -13,7 +13,7 @@
 	BearLibTerminal
 	SDL
 	rot.js
-	
+
 
 - mark names as used in name_gen
 
@@ -26,6 +26,11 @@
 
 
 ## Plan of Next Releases
+
+- experiments:
+	- rot.js
+	- layout journal
+	- base quest: retrieving Saint Thomas' Finger
 
 - v0.0.4:
 	- use site/npc reputation for 
