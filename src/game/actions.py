@@ -8,8 +8,9 @@ import exceptions
 
 if TYPE_CHECKING:
 	from game.engine import Engine
-	from game.entity import Actor, Entity, Item, Site
+	from game.entity import Entity, Item, Site
 
+from game.entity import Actor
 
 
 class Action:

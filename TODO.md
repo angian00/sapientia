@@ -1,10 +1,21 @@
 ## TODO
+- move map size from engine
+- make newgameaction
+- print stat bar
+- print mouse info
+- different screens:
+	- char info
+	- journal
+	- inventory
+	- message history
+- try focusbox
 
-- transform color strings in colors after terminal.open
-- make containers
+
 - alias type color
+- make type for layout
 
-- make small monasteries priories
+
+- make containers
 
 - configuration file
 	- language for plant/common names

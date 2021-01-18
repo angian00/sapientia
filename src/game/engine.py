@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
 	from game.entity import Actor
 	from ui.screen import GameScreen
@@ -18,7 +18,8 @@ import exceptions
 
 
 # DEBUG
-fov_full = True
+#fov_full = True
+fov_full = False
 #
 
 
@@ -75,13 +76,19 @@ class Engine:
 			import numpy as np # type: ignore
 			self.game_map.visible[:] = np.full((self.game_map.width, self.game_map.height), fill_value=True, order="F")
 		else:
-			# self.game_map.visible[:] = compute_fov(
-			# 	self.game_map.tiles["transparent"],
-			# 	(self.player.x, self.player.y),
-			# 	radius=8,
-			# 	algorithm=FOV_BASIC
-			# )
-			pass
+			transparents: List[List[bool]] = []
+
+			for x in range(self.game_map.width):
+				transparents.append([])
+				for y in range(self.game_map.height):
+					transparents[x].append(self.game_map.tiles[x][y].transparent)
+
+			self.game_map.visible[:] = compute_fov(
+				transparents,
+				(self.player.x, self.player.y),
+				radius=8,
+				algorithm=FOV_BASIC
+			)
 
 		for x in range(self.game_map.width):
 			for y in range(self.game_map.height):

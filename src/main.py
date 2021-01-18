@@ -2,13 +2,13 @@
 
 from bearlibterminal import terminal # type: ignore
 
-import ui.screen
+from ui.screen import init_terminal
 
 
 
 def main() -> None:
 	print("Antiqua Sapientia starting")
-	ui.screen.init()
+	init_terminal()
 
 
 if __name__ == "__main__":

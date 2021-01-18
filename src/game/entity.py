@@ -11,12 +11,12 @@ if TYPE_CHECKING:
 	from components.inventory import Inventory
 	from components.level import Level
 	from components.equipment import Equipment
+	from game.map import GameMap
 
 
 import math
 import copy
 
-from game.map import GameMap
 from game.render_order import RenderOrder
 import game.metadata
 import ui.color

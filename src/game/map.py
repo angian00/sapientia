@@ -1,14 +1,16 @@
 from __future__ import annotations
 
-from typing import Dict, Iterable, Iterator, Optional, TYPE_CHECKING
+from typing import Dict, Iterable, Iterator, List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-	from game.entity import Entity, Actor, Item, Site
+	from game.entity import Entity
 	from game.engine import Engine
+	from game.tile_types import Terrain
 
 import random
 
 import game.tile_types
+from game.entity import Actor, Site, Item
 
 
 class GameMap:
@@ -17,8 +19,8 @@ class GameMap:
 		self.width, self.height = width, height
 		self.entities = set(entities)
 
-		self.visible = [[False] * height ] * width
-		self.explored = [[False] * height ] * width
+		self.visible: List[List[bool]] = []
+		self.explored: List[List[bool]] = []
 		self.tiles: List[List[Terrain]] = []
 
 		for x in range(width):
@@ -28,8 +30,8 @@ class GameMap:
 
 			for y in range(height):
 				self.tiles[x].append(game.tile_types.floor)
-				self.visible.append(False)
-				self.explored.append(False)
+				self.visible[x].append(False)
+				self.explored[x].append(False)
 
 
 	@property

@@ -17,9 +17,11 @@ from ui.layout import *
 
 from game.entity import Site
 from game.engine import Engine
+from game.actions import *
 import game.entity_factories
 import game.tile_types
 import util
+from exceptions import *
 
 
 curr_screen: Optional[Screen] = None
@@ -68,7 +70,7 @@ CONFIRM_KEYS = {
 
 
 
-def init() -> None:
+def init_terminal() -> None:
 	global curr_screen
 
 	print("screen.init()")
@@ -94,7 +96,22 @@ def init() -> None:
 
 	ev: int = terminal.read()
 	while ev != terminal.TK_CLOSE:
-		curr_screen.on_input(ev)
+		try:
+			action = curr_screen.on_input(ev)
+			if action:
+				try:
+					action.perform()
+					if action.engine:
+						action.engine.update_fov()
+
+				except Impossible as e:
+					action.engine.message_log.add_message(e.args[0], ui.color.impossible)
+
+				action.engine.update_view()
+
+		except SystemExit:
+			break
+
 		ev = terminal.read()
 
 	terminal.close()
@@ -106,6 +123,9 @@ class Screen():
 
 	def refresh(self) -> None:
 		terminal.refresh()
+
+	def on_input(self, ev) -> Optional[Action]:
+		return None
 
 
 class SplashScreen(Screen):
@@ -121,13 +141,17 @@ class SplashScreen(Screen):
 			align=terminal.TK_ALIGN_CENTER, s="a Roguelike/RPG by AnGian")
 		terminal.refresh()
 
-	def on_input(self, ev) -> None:
+	def on_input(self, ev) -> Optional[Action]:
 		# any key == "new game"
 		global curr_screen
 
+		#TODO: move logic to NewGameAction
 		player = copy.deepcopy(game.entity_factories.player)
 		curr_screen = GameScreen(Engine.new_game(player))
 		curr_screen.render()
+
+		return None
+
 
 
 class GameScreen(Screen):
@@ -136,66 +160,59 @@ class GameScreen(Screen):
 		self.engine = engine
 		self.engine.game_screen = self
 
+
 	def render(self) -> None:
 		print_frame(map_x, map_y, map_width, map_height, title="Map")
 		print_frame(stats_x, stats_y, stats_width, stats_height, title="Stats")
 		print_frame(messages_x, messages_y, messages_width, messages_height, title="Messages")
 		
-		print(self.engine)
-		print(self.engine.player)
-		print(self.engine.player.name)
-
-		print_dumb_map()
-		print_dumb_stats()
 
 		self.engine.update_view()
+
+		print_dumb_stats()
+
 		terminal.refresh()
 
 
-	def on_input(self, ev) -> None:
-		# if key == terminal.TK_BACKSLASH:
+	def on_input(self, ev) -> Optional[Action]:
+		player = self.engine.player
+		action: Optional[Action] = None
+
+		# if ev == terminal.TK_BACKSLASH:
 		# 	return actions.TakeStairsAction(player)
 
+		if ev in MOVE_KEYS:
+			dx, dy = MOVE_KEYS[ev]
+			action = BumpAction(player, dx, dy)
+		elif ev in WAIT_KEYS:
+			action = WaitAction(player)
 
-		# if key in MOVE_KEYS:
-		# 	dx, dy = MOVE_KEYS[key]
-		# 	action = BumpAction(player, dx, dy)
-		# elif key in WAIT_KEYS:
-		# 	action = WaitAction(player)
-
-		# elif key == terminal.TK_ESCAPE:
-		# 	raise SystemExit()
+		elif ev == terminal.TK_ESCAPE:
+		 	raise SystemExit()
 		
-		# elif key == terminal.TK_V:
-		# 	return HistoryViewer(self.engine)
-
-		# elif key == terminal.TK_G:
-		# 	action = PickupAction(player)
-		# elif key == terminal.TK_I:
+		elif ev == terminal.TK_G:
+		 	action = PickupAction(player)
+		# elif ev == terminal.TK_I:
 		# 	return InventoryActivateHandler(self.engine)
-		# elif key == terminal.TK_D:
+		# elif ev == terminal.TK_D:
 		# 	return InventoryDropHandler(self.engine)
 		
-		# elif key == terminal.TK_T:
+		# elif ev == terminal.TK_T:
 		# 	return NPCEventHandler(self.engine)
 
-		# elif key == terminal.TK_C:
-		# 	return CharacterScreenEventHandler(self.engine)
-
-		# elif key == terminal.TK_COMMA:
+		# elif ev == terminal.TK_COMMA:
 		# 	return LookHandler(self.engine)
 
-		pass
+		# elif ev == terminal.TK_C:
+		# 	return CharacterScreenEventHandler(self.engine)
+
+		# elif ev == terminal.TK_V:
+		# 	return HistoryViewer(self.engine)
+
+		return action
 
 
 	def update_map(self, game_map: GameMap):
-		#TODO: move
-		#console.tiles_rgb[0:self.width, 0:self.height] = np.select(
-		#	condlist=[self.visible, self.explored],
-		#	choicelist=[self.tiles["light"], self.tiles["dark"]],
-		#	default=tile_types.SHROUD,
-		#)
-
 		for x in range(0, game_map.width):
 			for y in range(0, game_map.height):
 				if game_map.visible[x][y]:
@@ -227,10 +244,17 @@ class GameScreen(Screen):
 
 
 	def update_messages(self, message_log: MessageLog) -> None:
+		terminal.bkcolor(terminal.color_from_name(ui.color.default_bg))
+
+		#clear old lines
+		for x in range(messages_width):
+			for y in range(messages_height):
+				terminal.printf(x + messages_x + 1, y + messages_y + 1, " ")
+
+		#write new lines bottom-up
 		y_offset = messages_height - 2 - 1
 
 		for message in reversed(message_log.messages):
-			terminal.bkcolor(terminal.color_from_name(ui.color.default_bg))
 			terminal.color(terminal.color_from_name(message.color))
 			for line in reversed(list(wrap_str(message.full_text, messages_width - 2))):
 				terminal.print(x=messages_x + 1, y=messages_y + 1 + y_offset, s=line)
@@ -286,6 +310,13 @@ def print_frame(x, y, w, h, title=None) -> None:
 
 
 
+def wrap_str(string: str, width: int) -> Iterable[str]:
+	"""Return a wrapped text message."""
+	for line in string.splitlines():
+		yield from textwrap.wrap(line, width, expand_tabs=True,)
+
+
+
 def print_dumb_map() -> None:
 	curr_bkcolor = terminal.state(terminal.TK_BKCOLOR)
 
@@ -325,9 +356,3 @@ def print_dumb_stats() -> None:
 	terminal.color(terminal.color_from_name("grey"))
 	terminal.printf(x, y, "[[Sleeping]]")
 
-
-
-def wrap_str(string: str, width: int) -> Iterable[str]:
-	"""Return a wrapped text message."""
-	for line in string.splitlines():
-		yield from textwrap.wrap(line, width, expand_tabs=True,)

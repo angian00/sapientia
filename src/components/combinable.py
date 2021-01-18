@@ -33,7 +33,6 @@ class Combinable(BaseComponent):
 		inventory.items.remove(ingr1)
 		inventory.items.remove(ingr2)
 
-		#TODO: make more typesafe
 		prod = copy.deepcopy(game.entity_factories.get_entity_by_id(prod_id))
 		assert isinstance(prod, Item)
 		self.engine.message_log.add_message(f"You produced a {prod.name}!")

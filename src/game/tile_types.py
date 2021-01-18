@@ -5,7 +5,7 @@ import ui.color
 
 
 class Tile:
-	def __init__(self, ch: str, bg_color: str, fg_color: str):
+	def __init__(self, ch: str, fg_color: str, bg_color: str):
 		self.ch = ch
 		self.fg_color = fg_color
 		self.bg_color = bg_color
