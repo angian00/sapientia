@@ -4,8 +4,8 @@ from typing import Dict, Iterable, Iterator, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
 	from game.entity import Entity, Actor, Item, Site
+	from game.engine import Engine
 
-import numpy as np  # type: ignore
 import random
 
 import game.tile_types
@@ -16,12 +16,21 @@ class GameMap:
 		self.engine = engine
 		self.width, self.height = width, height
 		self.entities = set(entities)
-		#TODO: edit tiles
-		self.tiles = np.full((width, height), fill_value=game.tile_types.floor, order="F")
 
-		self.visible = np.full((width, height), fill_value=False, order="F")
-		self.explored = np.full((width, height), fill_value=False, order="F")
-		
+		self.visible = [[False] * height ] * width
+		self.explored = [[False] * height ] * width
+		self.tiles: List[List[Terrain]] = []
+
+		for x in range(width):
+			self.tiles.append([])
+			self.visible.append([])
+			self.explored.append([])
+
+			for y in range(height):
+				self.tiles[x].append(game.tile_types.floor)
+				self.visible.append(False)
+				self.explored.append(False)
+
 
 	@property
 	def gamemap(self) -> GameMap:
@@ -70,7 +79,6 @@ class GameMap:
 
 
 	def in_bounds(self, x: int, y: int) -> bool:
-		"""Return True if x and y are inside of the bounds of this map."""
 		return 0 <= x < self.width and 0 <= y < self.height
 
 
@@ -80,7 +88,7 @@ class GameMap:
 			x = random.randint(0, self.width-1)
 			y = random.randint(0, self.height-1)
 			
-			if self.tiles[x, y] != game.tile_types.wall and not self.get_blocking_entity_at_location(x, y):
+			if self.tiles[x][y] != game.tile_types.wall and not self.get_blocking_entity_at_location(x, y):
 				break
 		
 		entity.place(x, y, self)

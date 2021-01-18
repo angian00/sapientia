@@ -165,7 +165,7 @@ class EventHandler(BaseEventHandler):
 
 
 	def on_render(self) -> None:
-		self.engine.render()
+		self.engine.update_view()
 
 
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Iterable, Dict, Any, Optional, TYPE_CHECKING
+from typing import Iterable, Dict, Tuple, Any, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
 	from game.map import GameMap
 	from game.world import GameWorld
@@ -18,10 +18,54 @@ from ui.layout import *
 from game.entity import Site
 from game.engine import Engine
 import game.entity_factories
+import game.tile_types
 import util
 
 
 curr_screen: Optional[Screen] = None
+
+
+
+MOVE_KEYS = {
+	# Arrow keys.
+	terminal.TK_UP: (0, -1),
+	terminal.TK_DOWN: (0, 1),
+	terminal.TK_LEFT: (-1, 0),
+	terminal.TK_RIGHT: (1, 0),
+	terminal.TK_HOME: (-1, -1),
+	terminal.TK_END: (-1, 1),
+	terminal.TK_PAGEUP: (1, -1),
+	terminal.TK_PAGEDOWN: (1, 1),
+	# numpad keys
+	terminal.TK_KP_1: (-1, 1),
+	terminal.TK_KP_2: (0, 1),
+	terminal.TK_KP_3: (1, 1),
+	terminal.TK_KP_4: (-1, 0),
+	terminal.TK_KP_6: (1, 0),
+	terminal.TK_KP_7: (-1, -1),
+	terminal.TK_KP_8: (0, -1),
+	terminal.TK_KP_9: (1, -1),
+	# vi keys
+	terminal.TK_H: (-1, 0),
+	terminal.TK_J: (0, 1),
+	terminal.TK_K: (0, -1),
+	terminal.TK_L: (1, 0),
+	terminal.TK_Y: (-1, -1),
+	terminal.TK_U: (1, -1),
+	terminal.TK_B: (-1, 1),
+	terminal.TK_N: (1, 1),
+}
+
+WAIT_KEYS = {
+	terminal.TK_PERIOD,
+	terminal.TK_KP_5,
+}
+
+CONFIRM_KEYS = {
+	terminal.TK_RETURN,
+	terminal.TK_KP_ENTER,
+}
+
 
 
 def init() -> None:
@@ -109,6 +153,38 @@ class GameScreen(Screen):
 
 
 	def on_input(self, ev) -> None:
+		# if key == terminal.TK_BACKSLASH:
+		# 	return actions.TakeStairsAction(player)
+
+
+		# if key in MOVE_KEYS:
+		# 	dx, dy = MOVE_KEYS[key]
+		# 	action = BumpAction(player, dx, dy)
+		# elif key in WAIT_KEYS:
+		# 	action = WaitAction(player)
+
+		# elif key == terminal.TK_ESCAPE:
+		# 	raise SystemExit()
+		
+		# elif key == terminal.TK_V:
+		# 	return HistoryViewer(self.engine)
+
+		# elif key == terminal.TK_G:
+		# 	action = PickupAction(player)
+		# elif key == terminal.TK_I:
+		# 	return InventoryActivateHandler(self.engine)
+		# elif key == terminal.TK_D:
+		# 	return InventoryDropHandler(self.engine)
+		
+		# elif key == terminal.TK_T:
+		# 	return NPCEventHandler(self.engine)
+
+		# elif key == terminal.TK_C:
+		# 	return CharacterScreenEventHandler(self.engine)
+
+		# elif key == terminal.TK_COMMA:
+		# 	return LookHandler(self.engine)
+
 		pass
 
 
@@ -120,18 +196,32 @@ class GameScreen(Screen):
 		#	default=tile_types.SHROUD,
 		#)
 
+		for x in range(0, game_map.width):
+			for y in range(0, game_map.height):
+				if game_map.visible[x][y]:
+					curr_tile = game_map.tiles[x][y].light_tile
+				elif game_map.explored[x][y]:
+					curr_tile = game_map.tiles[x][y].dark_tile
+				else:
+					curr_tile = game.tile_types.SHROUD
+
+				terminal.color(terminal.color_from_name(curr_tile.fg_color))
+				terminal.bkcolor(terminal.color_from_name(curr_tile.bg_color))
+				terminal.printf(map_x + 1 + x, map_y + 1 + y, curr_tile.ch)
+
 
 		entities_sorted_for_rendering = sorted(game_map.entities, key=lambda x: x.render_order.value)
 
 		for entity in entities_sorted_for_rendering:
 			curr_color = None
 
-			if game_map.visible[entity.x, entity.y]:
+			if game_map.visible[entity.x][entity.y]:
 				curr_color = entity.color
-			elif game_map.explored[entity.x, entity.y] and isinstance(entity, Site):
+			elif game_map.explored[entity.x][entity.y] and isinstance(entity, Site):
 				curr_color = entity.dark_color
 
 			if curr_color:
+				terminal.bkcolor(terminal.color_from_name("transparent"))
 				terminal.color(terminal.color_from_name(curr_color))
 				terminal.printf(map_x + 1 + entity.x, map_y + 1 + entity.y, entity.char)
 
@@ -140,6 +230,7 @@ class GameScreen(Screen):
 		y_offset = messages_height - 2 - 1
 
 		for message in reversed(message_log.messages):
+			terminal.bkcolor(terminal.color_from_name(ui.color.default_bg))
 			terminal.color(terminal.color_from_name(message.color))
 			for line in reversed(list(wrap_str(message.full_text, messages_width - 2))):
 				terminal.print(x=messages_x + 1, y=messages_y + 1 + y_offset, s=line)

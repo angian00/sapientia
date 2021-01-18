@@ -224,7 +224,7 @@ class MovementAction(ActionWithDirection):
 			# Destination is out of bounds
 			return ExitMapAction(self.entity, self.dx, self.dy).perform()
 
-		if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
+		if not self.engine.game_map.tiles[dest_x][dest_y].walkable:
 			# Destination is blocked by a tile
 			raise exceptions.Impossible("That way is blocked")
 

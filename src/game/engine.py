@@ -75,14 +75,17 @@ class Engine:
 			import numpy as np # type: ignore
 			self.game_map.visible[:] = np.full((self.game_map.width, self.game_map.height), fill_value=True, order="F")
 		else:
-			self.game_map.visible[:] = compute_fov(
-				self.game_map.tiles["transparent"],
-				(self.player.x, self.player.y),
-				radius=8,
-				algorithm=FOV_BASIC
-			)
+			# self.game_map.visible[:] = compute_fov(
+			# 	self.game_map.tiles["transparent"],
+			# 	(self.player.x, self.player.y),
+			# 	radius=8,
+			# 	algorithm=FOV_BASIC
+			# )
+			pass
 
-		self.game_map.explored |= self.game_map.visible
+		for x in range(self.game_map.width):
+			for y in range(self.game_map.height):
+				self.game_map.explored[x][y] |= self.game_map.visible[x][y]
 
 
 	def update_view(self) -> None:
@@ -104,7 +107,7 @@ class Engine:
 
 	def get_mouse_info(self) -> str:
 		mouse_x, mouse_y = self.mouse_location
-		if not self.game_map.in_bounds(mouse_x, mouse_y) or not self.game_map.visible[mouse_x, mouse_y]:
+		if not self.game_map.in_bounds(mouse_x, mouse_y) or not self.game_map.visible[mouse_x][mouse_y]:
 			return ""
 
 		names = ", ".join(entity.display_name for entity in self.game_map.entities \

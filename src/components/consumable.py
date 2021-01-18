@@ -87,7 +87,7 @@ class LightningDamageConsumable(Consumable):
 		closest_distance = self.maximum_range + 1.0
 
 		for actor in self.engine.game_map.actors:
-			if actor is not consumer and self.parent.gamemap.visible[actor.x, actor.y]:
+			if actor is not consumer and self.parent.gamemap.visible[actor.x][actor.y]:
 				distance = consumer.distance(actor.x, actor.y)
 
 				if distance < closest_distance:
@@ -122,7 +122,7 @@ class ConfusionConsumable(Consumable):
 		consumer = action.entity
 		target = action.target_actor
 
-		if not self.engine.game_map.visible[action.target_xy]:
+		if not self.engine.game_map.visible[action.target_xy[0]][action.target_xy[1]]:
 			raise Impossible("You cannot target an area that you cannot see")
 		
 		if not target:
@@ -164,7 +164,7 @@ class FireballDamageConsumable(Consumable):
 	def activate(self, action: ItemAction) -> None:
 		target_xy = action.target_xy
 
-		if not self.engine.game_map.visible[target_xy]:
+		if not self.engine.game_map.visible[target_xy[0]][target_xy[1]]:
 			raise Impossible("You cannot target an area that you cannot see")
 
 		targets_hit = False

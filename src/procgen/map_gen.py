@@ -13,7 +13,7 @@ import tcod
 import game.entity_factories
 from game.map import GameMap
 from game.entity import Site
-import game.tile_types
+from game.tile_types import terrains
 import game.ingredients
 from game.metadata import SiteData
 import ui.color
@@ -46,14 +46,14 @@ class Rectangle:
 		return center_x, center_y
 
 	@property
-	def area(self) -> Tuple[slice, slice]:
+	def area(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
 		"""Return the area of this room as a 2D array index"""
-		return slice(self.x1, self.x2), slice(self.y1, self.y2)
+		return ((self.x1, self.x2), (self.y1, self.y2))
 
 	@property
-	def inner(self) -> Tuple[slice, slice]:
+	def inner(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
 		"""Return the inner area of this room as a 2D array index"""
-		return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
+		return ((self.x1 + 1, self.x2), (self.y1 + 1, self.y2))
 
 	def intersects(self, other: Rectangle) -> bool:
 		"""Return True if this room overlaps with another RecOutdoorBuilding"""
@@ -103,7 +103,8 @@ def generate_wilderness_map(map_width: int, map_height: int, engine: Engine) -> 
 				if samples[x, y] < terrain_levels[i]:
 					break
 
-			new_map.tiles[x, y] = game.tile_types.terrain_tiles[i-1]
+			new_map.tiles[x][y] = terrains[i-1]
+
 
 	site_config: Dict[str, int] = { "monastery": 10, "village": 10}
 	
@@ -143,7 +144,9 @@ def generate_local_map(map_width: int, map_height: int, engine: Engine, npcs: Op
 			# This building intersects, so go to the next attempt
 			continue
 
-		new_map.tiles[new_b.area] = game.tile_types.wall
+		for x in range(*new_b.area[0]):
+			for y in range(*new_b.area[1]):
+				new_map.tiles[x][y] = game.tile_types.wall
 
 		buildings.append(new_b)
 
@@ -181,7 +184,7 @@ def place_sites(target_map: GameMap, site_type: str, n_sites: int) -> None:
 
 		if site_type == "monastery":
 			new_site = game.entity_factories.monastery.spawn(target_map, x, y)	
-			site_data = generate_monastery_data(target_map.tiles[x, y])
+			site_data = generate_monastery_data(target_map.tiles[x][y])
 			new_site.name = site_data.name
 
 			if site_data.size == "small":
@@ -195,7 +198,7 @@ def place_sites(target_map: GameMap, site_type: str, n_sites: int) -> None:
 
 		else: #village
 			new_site = game.entity_factories.village.spawn(target_map, x, y)	
-			site_data = generate_village_data(target_map.tiles[x, y])
+			site_data = generate_village_data(target_map.tiles[x][y])
 			new_site.name = site_data.name
 			new_site.site_data = site_data
 
@@ -223,7 +226,7 @@ def place_npcs(target_map: GameMap, npcs: List[Dict[str, str]]) -> None:
 		x = random.randint(0, target_map.width - 1)
 		y = random.randint(0, target_map.height - 1)
 
-		if  (not target_map.tiles["walkable"][x, y]) or \
+		if  (not target_map.tiles[x][y].walkable) or \
 			any(entity.x == x and entity.y == y for entity in target_map.entities):
 			continue
 
